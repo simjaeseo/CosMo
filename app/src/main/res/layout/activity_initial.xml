@@ -12,7 +12,7 @@
         android:layout_width="132dp"
         android:layout_height="177dp"
         android:layout_marginTop="130dp"
-        android:backgroundTint="#c4c4c4"
+        android:enabled="false"
         android:gravity="right|bottom"
         android:text="헬멧박스open"
         android:textSize="20dp"
@@ -26,7 +26,7 @@
         android:layout_width="132dp"
         android:layout_height="177dp"
         android:layout_marginTop="130dp"
-        android:backgroundTint="#c4c4c4"
+        android:enabled="false"
         android:gravity="right|bottom"
         android:text="후방감지on"
         android:textSize="20dp"
@@ -39,7 +39,7 @@
         android:id="@+id/returnButton"
         android:layout_width="132dp"
         android:layout_height="177dp"
-        android:backgroundTint="#c4c4c4"
+        android:enabled="false"
         android:gravity="right|bottom"
         android:text="헬멧박스반납하기"
         android:textSize="20dp"
@@ -66,19 +66,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
-            android:background="#BFDCFE" />
+            android:background="#BFDCFE" >
 
+            <TextureView
+                android:id="@+id/textureView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:id="@+id/layout2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5" />
+            android:layout_weight="5"
+            android:orientation="horizontal" />
 
         <LinearLayout
             android:layout_width="match_parent"
