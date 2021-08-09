@@ -9,18 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CosMo">
-        <activity android:name=".InitialActivity"></activity>
-
-        <!-- android:theme = 액션바 삭제
-        스플래시 화면을 시작 화면으로.-->
-        <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name=".loginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".signupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".login"
+            android:exported="true" />
+        <activity android:name=".InitialActivity" />
+        <!--
+ android:theme = 액션바 삭제
+        스플래시 화면을 시작 화면으로.
+        -->
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
