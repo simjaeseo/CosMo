@@ -3,4 +3,5 @@ CosMo
 
 -   hardware
 -   front
+-   front_java
 -   backend
