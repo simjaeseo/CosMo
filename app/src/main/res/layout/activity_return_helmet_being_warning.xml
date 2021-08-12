@@ -3,24 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="308dp"
-    android:layout_height="91dp"
-    tools:context=".ReturnReportCompleteActivity">
+    android:layout_height="140dp"
+    tools:context=".ReturnHelmetBeingWarningActivity">
 
 
     <TextView
-        android:id="@+id/returnReportCompleteMessageTextView"
-        android:layout_width="240dp"
-        android:layout_height="60dp"
+        android:id="@+id/ReturnHelmetBeingWarningMessageTextView"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
         android:textAlignment="center"
-        android:gravity="center"
-        android:text="신고가 접수되었습니다.\n해당 헬멧박스는 반납됩니다."
+        android:text="헬멧박스 안에 헬멧이 있는지, \n헬멧박스를 잘 닫았는지,\n확인해주세요!"
         android:textSize="20dp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"  />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

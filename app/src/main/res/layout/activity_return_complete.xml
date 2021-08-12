@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="308dp"
+    android:layout_width="310dp"
     android:layout_height="91dp"
-    tools:context=".ReturnReportCompleteActivity">
+    tools:context=".ReturnCompleteActivity">
 
 
     <TextView
-        android:id="@+id/returnReportCompleteMessageTextView"
-        android:layout_width="240dp"
-        android:layout_height="60dp"
+        android:id="@+id/returnCompleteMessageTextView"
+        android:layout_width="310dp"
+        android:layout_height="90dp"
         android:textAlignment="center"
         android:gravity="center"
-        android:text="신고가 접수되었습니다.\n해당 헬멧박스는 반납됩니다."
+        android:text="헬멧박스가 반납되었습니다.\n이용해주셔서 감사합니다."
         android:textSize="20dp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"

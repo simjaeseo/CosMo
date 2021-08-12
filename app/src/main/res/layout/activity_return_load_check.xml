@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="220dp"
+    android:layout_height="180dp"
+    tools:context=".ReturnLoadCheckActivity">
+
+
+    <TextView
+        android:id="@+id/loadCheckTextView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:text="헬멧박스에 두고가신\n집은 없나요?"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/loadCheckYesButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/loadCheckYesButton"
+        android:layout_width="80dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/popup_yes_button_shape"
+
+        android:text="확인"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/loadCheckCancelButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2" />
+
+    <Button
+        android:id="@+id/loadCheckCancelButton"
+        android:layout_width="80dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="10dp"
+
+        android:background="@drawable/popup_cancel_button_shape"
+        android:text="취소"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/loadCheckYesButton"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
