@@ -50,5 +50,14 @@ public class MainActiveActivity extends AppCompatActivity {
         });
 
 
+
+
+        //헬멧박스open 버튼 선언 후 클릭했을때 이벤트 발생(반납할건지 말건지 정하는 팝업창 뜸)
+        Button returnButton = (Button) findViewById(R.id.returnButton);
+        returnButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ReturnFirstActivity.class);
+            startActivity(intent);
+        });
+
     }
 }
