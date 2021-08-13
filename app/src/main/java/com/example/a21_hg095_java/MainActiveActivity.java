@@ -1,6 +1,7 @@
 package com.example.a21_hg095_java;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActiveActivity extends AppCompatActivity {
 
     private Button detective_Button;
-    private ImageView imageView;
     private View.OnClickListener detective_Listener;
     int i = 1;
 
@@ -29,14 +29,18 @@ public class MainActiveActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (i % 2 == 1) {
                     detective_Button.setText("후방감지on");
+                    detective_Button.setBackgroundColor(Color.parseColor("#37b328"));
                     i++;
                 } else if (i % 2 == 0) {
                     detective_Button.setText("후방감지off");
+                    detective_Button.setBackgroundColor(Color.parseColor("#BFDCFE"));
                     i++;
-                }
+                } // 숫자를 0과 1로 반복되게 변화를 주어서 색변환 동작을 하게 구현
             }
 
         };
+
+        detective_Button.setOnClickListener(detective_Listener);
 
 
         //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언

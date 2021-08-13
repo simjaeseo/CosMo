@@ -12,7 +12,7 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
-        android:text="헬멧박스에 두고가신\n집은 없나요?"
+        android:text="헬멧박스에 두고가신\n짐은 없나요?"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18dp"
