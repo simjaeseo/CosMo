@@ -7,125 +7,119 @@
     tools:context=".SignupActivity">
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoText="true"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="이메일을 입력해주세요"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="187dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPassword3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="346dp" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="비밀번호"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="248dp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이름"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.283"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="406dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPassword2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="267dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/signup_id_EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="성함을 입력해주세요"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="425dp" />
+        tools:layout_editor_absoluteX="109dp"
+        tools:layout_editor_absoluteY="203dp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/signup_name_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#BFDCFE"
+        android:text="이름"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.283"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="417dp" />
+
+    <Button
+        android:id="@+id/signup_done_button"
+        android:layout_width="116dp"
+        android:layout_height="57dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="124dp"
+        android:backgroundTint="#BFDCFE"
+        android:text="완료"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/signup_pwcheck_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#BFDCFE"
         android:text="비밀번호 확인"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.33"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="327dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아이디(이메일)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.337"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="161dp" />
+        tools:layout_editor_absoluteY="338dp" />
 
     <Button
-        android:id="@+id/done"
-        android:layout_width="116dp"
-        android:layout_height="57dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginBottom="108dp"
-        android:backgroundTint="@color/black"
-        android:text="완료"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/cancle"
+        android:id="@+id/signup_cancle_button"
         android:layout_width="116dp"
         android:layout_height="57dp"
         android:layout_marginStart="72dp"
-        android:layout_marginBottom="108dp"
-        android:backgroundTint="@color/black"
+        android:layout_marginBottom="124dp"
+        android:backgroundTint="#BFDCFE"
         android:text="취소"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
+    <EditText
+        android:id="@+id/signup_name_EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="editTextTextEmailAddress2,textView2,editTextTextPassword3,textView3,textView5,editTextTextPassword2,editTextTextPersonName3,textView4" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="성함을 입력해주세요"
+        android:textColor="#34000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="436dp" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group2"
+    <EditText
+        android:id="@+id/signup_pw_EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="editTextTextEmailAddress2,textView2,textView3,editTextTextPassword3,textView5,editTextTextPassword2,editTextTextPersonName3,textView4" /><![CDATA[
+        android:ems="10"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="278dp" />
+
+    <TextView
+        android:id="@+id/signup_pw_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#BFDCFE"
+        android:text="비밀번호"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="259dp" />
+
+    <EditText
+        android:id="@+id/signup_pwcheck_EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="357dp" />
+
+    <TextView
+        android:id="@+id/signup_id_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#BFDCFE"
+        android:text="아이디"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="170dp" /><![CDATA[
 
 
 

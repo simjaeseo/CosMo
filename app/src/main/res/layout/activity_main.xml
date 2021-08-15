@@ -1,72 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
     android:background="@drawable/mainbackground"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/boxOpenButton"
-        android:layout_width="132dp"
-        android:layout_height="177dp"
-        android:layout_marginTop="130dp"
-        android:backgroundTint="#A5A1A1"
-        android:enabled="false"
-        android:gravity="right|bottom"
-        android:text="헬멧박스open"
-        android:textColor="#fff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@id/returnButton"
-        app:layout_constraintEnd_toStartOf="@id/backDetectionButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/backDetectionButton"
-        android:layout_width="132dp"
-        android:layout_height="177dp"
-        android:layout_marginTop="130dp"
-        android:backgroundTint="#A5A1A1"
-        android:enabled="false"
-        android:gravity="right|bottom"
-        android:text="후방감지on"
-        android:textColor="#fff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@id/rentButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/boxOpenButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        <include layout="@layout/main_toolbar" />
 
-    <Button
-        android:id="@+id/returnButton"
-        android:layout_width="132dp"
-        android:layout_height="177dp"
-        android:backgroundTint="#A5A1A1"
-        android:enabled="false"
-        android:gravity="right|bottom"
-        android:text="헬멧박스반납하기"
-        android:textColor="#fff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rentButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boxOpenButton" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
 
-    <Button
-        android:id="@+id/rentButton"
-        android:layout_width="132dp"
-        android:layout_height="177dp"
-        android:backgroundTint="#000"
-        android:gravity="right|bottom"
-        android:onClick="startBarcodeReader"
-        android:text="대여하기"
-        android:textColor="#FFF"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/returnButton"
-        app:layout_constraintTop_toBottomOf="@id/backDetectionButton" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/boxOpenButton"
+                    android:layout_width="132dp"
+                    android:layout_height="177dp"
+                    android:layout_margin="30dp"
+                    android:backgroundTint="#A5A1A1"
+                    android:enabled="false"
+                    android:gravity="right|bottom"
+                    android:text="헬멧박스open"
+                    android:textColor="#fff"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/backDetectionButton"
+                    android:layout_width="132dp"
+                    android:layout_height="177dp"
+                    android:layout_margin="30dp"
+                    android:backgroundTint="#A5A1A1"
+                    android:enabled="false"
+                    android:gravity="right|bottom"
+                    android:text="후방감지on"
+                    android:textColor="#fff"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/returnButton"
+                    android:layout_width="132dp"
+                    android:layout_height="177dp"
+                    android:layout_margin="30dp"
+                    android:backgroundTint="#A5A1A1"
+                    android:enabled="false"
+                    android:gravity="right|bottom"
+                    android:text="헬멧박스반납하기"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/rentButton"
+                    android:layout_width="132dp"
+                    android:layout_height="177dp"
+                    android:layout_margin="30dp"
+                    android:backgroundTint="#3F51B5"
+                    android:gravity="right|bottom"
+                    android:onClick="startBarcodeReader"
+                    android:text="대여하기"
+                    android:textSize="20dp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white">
+
+        <include layout="@layout/main_nav_drawer" />
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

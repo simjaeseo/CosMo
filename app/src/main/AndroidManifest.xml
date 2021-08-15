@@ -14,13 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.21_hg095_java">
         <activity
-            android:name=".BoxOpenPopUpYesActivity"
-            android:theme="@style/Theme.MyDialog"
+            android:name=".Dashboard"
             android:exported="true" />
         <activity
+            android:name=".BoxOpenPopUpYesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
+        <activity
             android:name=".BoxOpenPopUpActivity"
-            android:theme="@style/Theme.MyDialog"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".MainActiveActivity"
             android:exported="true" />
