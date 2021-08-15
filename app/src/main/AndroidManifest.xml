@@ -14,9 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.21_hg095_java">
         <activity
-            android:name=".ReturnCompleteActivity"
+            android:name=".QuestionsServiceActivity"
             android:theme="@style/Theme.MyDialog"
             android:exported="true" />
+        <activity
+            android:name=".QuestionsReportActivity"
+            android:theme="@style/Theme.MyDialog"
+            android:exported="true" />
+        <activity
+            android:name=".InformationActivity2"
+            android:theme="@style/Theme.MyDialog"
+            android:exported="true" />
+        <activity
+            android:name=".Questions"
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
+        <activity
+            android:name=".LoginCompleteActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
+        <activity
+            android:name=".ReturnCompleteActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".ReturnLoadCheckActivity"
             android:exported="true"
