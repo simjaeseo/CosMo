@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/helmetBoxText"
+            android:icon="@drawable/ic_text"
+            android:title="헬멧박스 이용안내"/>
+        <item android:id="@+id/backDetectionText"
+            android:icon="@drawable/ic_text"
+            android:title="후방감지 기능 이용안내"/>
+        <item android:id="@+id/suggestion"
+            android:icon="@drawable/ic_suggestion"
+            android:title="건의함"/>
+        <item android:id="@+id/login"
+            android:icon="@drawable/ic_login"
+            android:title="로그인"/>
+    </group>
+
+</menu>

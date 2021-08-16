@@ -73,9 +73,6 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".QrActivity"
-            android:exported="true" />
-        <activity
             android:name=".SplashActivity"
             android:exported="true" />
         <activity
