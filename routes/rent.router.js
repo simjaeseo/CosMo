@@ -4,16 +4,6 @@ const { JWT_SECRET } = require("../config");
 const { getConn } = require("../database/index.js");
 const router = express.Router();
 
-// 로그인 한 상태
-
-// qr코드로 대여하기 요청
-
-// QR코드가 db에 있는지 확인 후 있으면
-// 유저의 대여상태를 true로 변경
-
-// 그 이후 기능들을 대여상태 확인 미들웨어를 통해 권한을 줌
-
-//=====================================================
 //대여하기 버튼 눌렀을때의 라우터
 //사용자가 로그인했는지 인증하는 미들웨어 거친 후 작동하게 만들기.
 router.post("/", async (req, res) => {
@@ -27,9 +17,8 @@ router.post("/", async (req, res) => {
         const [[DBqrcode]] = await conn.query(`SELECT *  FROM helmetbox WHERE QRnumber = ?`, [qrcode]);
 
         if (DBqrcode) {
-            console.log(DBqrcode);
             // 대여하는 상황
-            // 해당 QR코드에 맞는 라즈베리파이에 연결하여 센서제어하기. ---> 어떻게 연결?
+            // 해당 QR코드에 맞는 라즈베리파이에 연결하여 센서제어하기. ---> 어떻게 연결? Flask?
 
             // helmetbox 테이블의 boxRentStatus, users 테이블의 rentStatus 모두 true로 바꾸기
             let status = "true";

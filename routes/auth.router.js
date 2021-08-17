@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
 });
 
 //로그인 라우터
-//테스트해야함
+//테스트 완료(API 작동 정상)
 router.post("/login", async (req, res) => {
     const { nickname, password } = req.body;
 
