@@ -4,6 +4,8 @@
     package="com.example.a21_hg095_java">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+    //서버와 통신을 하기 위한 인터넷 권한 허용
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,17 +16,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.21_hg095_java">
         <activity
-            android:name=".QuestionsServiceActivity"
-            android:theme="@style/Theme.MyDialog"
+            android:name=".QrThemeActivity"
             android:exported="true" />
+        <activity
+            android:name=".QrActivity"
+            android:exported="true" />
+        <activity
+            android:name=".QuestionsServiceActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".QuestionsReportActivity"
-            android:theme="@style/Theme.MyDialog"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".InformationActivity2"
-            android:theme="@style/Theme.MyDialog"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".Questions"
             android:exported="true"

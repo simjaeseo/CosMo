@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -60,6 +61,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+/*
+        // 재서가 만든 QR 스캐너 코드
+        //대여하기 버튼 선언 후 클릭했을때 이벤트 발생(QR코드 스캐너 화면 뜸)
+        Button rentButton = (Button) findViewById(R.id.rentButton);
+        rentButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, QrActivity.class);
+            startActivity(intent);
+        });
+*/
+
+        //대여하기 버튼 클릭시 이동하는 임시 코드
+        Button rentButton = (Button) findViewById(R.id.rentButton);
+        rentButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
+            startActivity(intent);
+        });
+
+
     }
     // 사이드바 켜지고 뒤로가기 버튼 누르면 사이드바 닫힘 구현
     @Override
@@ -71,12 +91,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startBarcodeReader(View activity_main) {
-/*        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+  /*  public void startBarcodeReader(View activity_main) {
+*//*        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setBeepEnabled(false);//바코드 인식시 소리
-        intentIntegrator.initiateScan();*/
+        intentIntegrator.initiateScan();*//*
         Intent intent = new Intent(getApplicationContext(), MainActiveActivity.class); // 다음 넘어갈 클래스 지정
         startActivity(intent);
 
-    } //qr 인식화면
+    } //qr 인식화면*/
+
+
+
+
+
 }
+
+
+
+
+
