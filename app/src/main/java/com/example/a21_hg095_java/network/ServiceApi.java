@@ -9,10 +9,11 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
+//서버에 요청보내는 부분 정의
 public interface ServiceApi {
     @POST("/login")
     Call<LoginResponse> userLogin(@Body LoginData data);
 
-    @POST("/register")
+    @POST("/auth/register")
     Call<SignupResponse> userJoin(@Body SignupData data);
 }

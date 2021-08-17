@@ -5,7 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private final static String BASE_URL = "할당받은 public dns 작성";
+    // 요청할 서버 URL
+    private final static String BASE_URL = "http://3.36.171.36:9200";
     private static Retrofit retrofit = null;
 
     private RetrofitClient() {

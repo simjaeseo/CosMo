@@ -25,54 +25,57 @@ public class SignupActivity extends AppCompatActivity {
     private EditText signup_id_EditText;
     private EditText signup_pwcheck_EditText;
     private Button signup_done_button;
-    private ProgressBar mProgressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        EditText signup_id_EditText = (EditText) findViewById(R.id.signup_id_EditText);
-        EditText signup_pw_EditText = (EditText) findViewById(R.id.signup_pw_EditText);
-        EditText signup_pwcheck_EditText = (EditText) findViewById(R.id.signup_pwcheck_EditText);
-
+        signup_id_EditText = (EditText) findViewById(R.id.signup_id_EditText);
+        signup_pw_EditText = (EditText) findViewById(R.id.signup_pw_EditText);
+        signup_pwcheck_EditText = (EditText) findViewById(R.id.signup_pwcheck_EditText);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
 
         //회원가입 확인 클릭시
-        Button signup_done_button = findViewById(R.id.signup_done_button);
+        signup_done_button = (Button) findViewById(R.id.signup_done_button);
         signup_done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptJoin();
-
-
+                if((signup_id_EditText.length() == 0) ||(signup_pw_EditText.length() == 0) || (signup_pwcheck_EditText.length() == 0)){
+                    Toast.makeText(getApplicationContext(), "회원가입 정보를 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+                } else if(!signup_pw_EditText.getText().toString().equals(signup_pwcheck_EditText.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "비밀번호 확인이 일치하는지 확인해주세요.",Toast.LENGTH_SHORT).show();
+                }else{
+                    attemptJoin();
+                }
             }
         });
     }
-    private void attemptJoin() {
-        signup_id_EditText.setError(null);
-        signup_pw_EditText.setError(null);
 
-        String name = signup_id_EditText.getText().toString();
+
+    private void attemptJoin() {
+
+        String nickname = signup_id_EditText.getText().toString();
         String password = signup_pw_EditText.getText().toString();
 
-
-        startJoin(new SignupData(name, password));
+        //아이디 비번 인자로 넣어서 서버에 요청하는 부분
+        startJoin(new SignupData(nickname, password));
     }
 
     private void startJoin(SignupData data) {
         service.userJoin(data).enqueue(new Callback<SignupResponse>() {
+            //요청해서 응답이 왔을 때
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-                SignupResponse result = response.body();
-                Toast.makeText(SignupActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+//                SignupResponse result = response.body();
+                Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                if (result.getCode() == 200) {
+                if (response.body().getSuccess()) {
                     finish();
                 }
             }
-
+            //요청이 실패했을 때
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
                 Toast.makeText(SignupActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
