@@ -24,6 +24,8 @@ public class ReturnReportCompleteActivity extends AppCompatActivity {
             @Override
             public void run() {
                 finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         }, 2000); //2초 딜레이 후 자동꺼짐
     }

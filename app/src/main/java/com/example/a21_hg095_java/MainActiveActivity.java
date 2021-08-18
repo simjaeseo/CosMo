@@ -76,7 +76,7 @@ public class MainActiveActivity extends AppCompatActivity {
                     i++;
                 } else if (i % 2 == 0) {
                     detective_Button.setText("후방감지off");
-                    detective_Button.setBackgroundColor(Color.parseColor("#BFDCFE"));
+                    detective_Button.setBackgroundColor(Color.parseColor("#3F51B5"));
                     i++;
                 } // 숫자를 0과 1로 반복되게 변화를 주어서 색변환 동작을 하게 구현
             }
