@@ -4,7 +4,7 @@
     package="com.example.a21_hg095_java">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
-    //서버와 통신을 하기 위한 인터넷 권한 허용
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,10 +12,19 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_logo"
         android:label="COSMO"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.21_hg095_java">
+        android:theme="@style/Theme.21_hg095_java"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".RentalHelmetActivity"
+            android:exported="true" />
+        <activity
+            android:name=".InformationBackActivity"
+            android:exported="true" />
+        <activity
+            android:name=".InformationScrollViewActivity"
+            android:exported="true" />
         <activity
             android:name=".QrThemeActivity"
             android:exported="true" />
@@ -83,7 +92,7 @@
             tools:replace="screenOrientation" />
         <activity
             android:name=".SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -96,12 +105,9 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
