@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.a21_hg095_java.data.LoginData;
 import com.example.a21_hg095_java.data.LoginResponse;
+import com.example.a21_hg095_java.data.SharedPreference;
 import com.example.a21_hg095_java.network.RetrofitClient;
 import com.example.a21_hg095_java.network.ServiceApi;
 
@@ -19,6 +20,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private SharedPreference sharedpreference;
+
 
     private Button login_login_button;
     private Button login_signup_button;
@@ -32,18 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText login_id_edittext = (EditText) findViewById(R.id.login_id_edittext);
-        EditText login_password_editview = (EditText) findViewById(R.id.login_password_editview);
-        Button login_login_button = (Button) findViewById(R.id.login_login_button);
-        Button login_signup_button = findViewById(R.id.login_signup_button);
+        login_id_edittext = (EditText) findViewById(R.id.login_id_edittext);
+        login_password_editview = (EditText) findViewById(R.id.login_password_editview);
+        login_login_button = (Button) findViewById(R.id.login_login_button);
+        login_signup_button = findViewById(R.id.login_signup_button);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
-
-        // 확인 버튼 선언 후 클릭시 이벤트 발생하도록 코딩(로그인 완료 후 성공 팝업창 띄우기)
-        login_login_button.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), LoginCompleteActivity.class);
-            attemptLogin();
-        });
 
         //회원가입 페이지로 이동
         login_signup_button.setOnClickListener(new View.OnClickListener() {
@@ -54,23 +52,47 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        // 로그인 버튼 클릭 시
+        login_login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((login_id_edittext.length() == 0) ||(login_password_editview.length() == 0)){
+                    Toast.makeText(getApplicationContext(), "로그인 정보를 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+                } else{
+                    attemptLogin();
+                }
+            }
+        });
     }
 
     private void attemptLogin() {
-        String email = login_id_edittext.getText().toString();
+        String nickname = login_id_edittext.getText().toString();
         String password = login_password_editview.getText().toString();
 
-        startLogin(new LoginData(email, password));
+        startLogin(new LoginData(nickname, password));
     }
+
+    private static String token;
 
     private void startLogin(LoginData data) {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                LoginResponse result = response.body();
-                Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+//              LoginResponse result = response.body();
+                if (response.body().getSuccess()) {
+                    sharedpreference = new SharedPreference(getApplicationContext());
+                    sharedpreference.createToken(response.body().getToken());
+                    Toast.makeText(LoginActivity.this, sharedpreference.getPref().getString(token,""), Toast.LENGTH_SHORT).show();
 
+                    /*// 팝업창 띄운 후 스택 삭제한 다음 메인 액티티비로?
+                    finish();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);*/
+                }else{
+                    Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();

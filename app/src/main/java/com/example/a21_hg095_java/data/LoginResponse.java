@@ -3,24 +3,24 @@ package com.example.a21_hg095_java.data;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
-    @SerializedName("code")
-    private int code;
+    @SerializedName("success")
+    private boolean success;
 
     @SerializedName("message")
     private String message;
 
-    @SerializedName("userId")
-    private int userId;
+    @SerializedName("token")
+    private String token;
 
-    public int getCode() {
-        return code;
+    public boolean getSuccess() {
+        return success;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getToken() {
+        return token;
     }
 }

@@ -69,13 +69,15 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
 //                SignupResponse result = response.body();
-                Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                 if (response.body().getSuccess()) {
+                    Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     finish();
+                }else{
+                    Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-            //요청이 실패했을 때
+            //요청해서 응답이 안왔을 때
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
                 Toast.makeText(SignupActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();

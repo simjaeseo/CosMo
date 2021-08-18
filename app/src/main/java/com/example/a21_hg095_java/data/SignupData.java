@@ -9,6 +9,7 @@ public class SignupData {
     @SerializedName("password")
     private String password;
 
+
     public SignupData(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
