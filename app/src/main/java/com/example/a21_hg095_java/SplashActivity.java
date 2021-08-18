@@ -15,20 +15,21 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        this.setContentView(1300085);
-        Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = (Runnable)(new Runnable() {
-            public final void run() {
-                Intent intent = new Intent((Context)SplashActivity.this, MainActivity.class);
-
-                // 여기서 사용자가 로그인이 이미 완료된 상태라면 메인 액티비티로 자동 넘어가도록 구현해야 할듯!
-                // 로그인 했는지 안했는지는 토큰을 이용하면 되지않을까 생각.
-
-                SplashActivity.this.startActivity(intent);
-                SplashActivity.this.finish();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
-        });
-        handler.postDelayed(runnable, 3000L);
+        },3000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 
 }

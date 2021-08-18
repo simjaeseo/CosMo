@@ -24,23 +24,25 @@ public class ReturnLoadCheckActivity extends AppCompatActivity {
         // 확인 버튼 선언 후 클릭시 이벤트 발생하도록 코딩(통신해서 헬멧박스 open 후 다음 팝업창 띄우기)
         Button loadCheckYesButton = (Button) findViewById(R.id.loadCheckYesButton);
         loadCheckYesButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), BoxOpenPopUpYesActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ReturnCompleteActivity.class);
 
 
-            //헬멧박스 open 부분이니, 서버랑 라즈베리파이랑 통신하는 부분 추가해야함
-            //실제 헬멧박스를 오픈해야하니.
+            //헬멧박스 반납되면서 종료 서버로 반납처리 헬멧박스 기능 잠금
 
 
 
             startActivity(intent);
+            finish();
 
         });
 
 
 
-        //취소 버튼 선언 후 클릭시 이벤트 발생하도록 코딩(이전 액티비티로 돌아감)
+        //취소 버튼 선언 후 클릭시 이전 팝업창으로 이동
         Button loadCheckCancelButton = (Button) findViewById(R.id.loadCheckCancelButton);
         loadCheckCancelButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ReturnFirstActivity.class);
+            startActivity(intent);
             finish();
         });
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.Button;
 
@@ -16,11 +17,9 @@ public class ReturnFirstReportFirstActivity extends AppCompatActivity {
         /*타이틀(ActionBar 영역) 제거하기
          * setContentView(R.layout.activity_box_open_pop_up); 보다 먼저 선언되어야함
          * */
-        requestWindowFeature( Window.FEATURE_NO_TITLE );
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_return_first_report_first);
-
-
 
 
         //신고 버튼 선언 후 클릭했을때 이벤트 발생(반납 확인 클릭 후 팝업창 뜸)
@@ -34,22 +33,30 @@ public class ReturnFirstReportFirstActivity extends AppCompatActivity {
 
 
             startActivity(intent);
+            finish();
         });
 
-
-        //취소 버튼 선언 후 클릭시 이벤트 발생하도록 코딩(이전 액티비티로 돌아감)
+        //취소 버튼 선언 후 클릭시 이벤트 발생하도록 코딩(이전 반납팝업창으로 돌아가고 해당 팝업은 종료)
         Button returnSecondCancelButton = (Button) findViewById(R.id.returnSecondCancelButton);
         returnSecondCancelButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ReturnFirstActivity.class);
+            startActivity(intent);
             finish();
 
         });
 
 
 
+
     }
-
-
-
+    /*팝업 밖 선택시 닫힘 방지*/
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if( event.getAction() == MotionEvent.ACTION_OUTSIDE ) {
+            return false;
+        }
+        return true;
+    }
 
 
 }

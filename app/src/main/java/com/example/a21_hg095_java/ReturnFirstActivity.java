@@ -12,9 +12,6 @@ public class ReturnFirstActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*타이틀(ActionBar 영역) 제거하기
-         * setContentView(R.layout.activity_box_open_pop_up); 보다 먼저 선언되어야함
-         * */
         requestWindowFeature( Window.FEATURE_NO_TITLE );
         setContentView(R.layout.activity_return_first);
 
@@ -22,6 +19,12 @@ public class ReturnFirstActivity extends AppCompatActivity {
         //반납확인 버튼 선언 후 클릭했을때 이벤트 발생(반납 확인 클릭 후 팝업창 뜸)
         Button returnFirstYesButton = (Button) findViewById(R.id.returnFirstYesButton);
         returnFirstYesButton.setOnClickListener(v -> {
+            /*            if 헬멧 잘 안 닫쳤다면
+                    warning 액티비티 창 띄우고
+                    else if 헬멧이 없다면
+                    warning 액티비티 창 띄우고
+                    else 둘다 괜찮다면
+                    load check 액티비티 창 띄우고*/
 
 
             //1. 헬멧박스안에 헬멧이 들어있는지 확인할 수 있도록 센서값을 확인해야함.(들어있으면 짐 있는지 확인하는 액티비티 띄우고,
@@ -31,8 +34,9 @@ public class ReturnFirstActivity extends AppCompatActivity {
 
 
 
-            Intent intent = new Intent(getApplicationContext(), ReturnHelmetBeingWarningActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ReturnLoadCheckActivity.class); //테스트 위해 load_check로 넘어가게 함
             startActivity(intent);
+            finish();
         });
 
         //신고 버튼 선언 후 클릭했을때 이벤트 발생(반납 확인 클릭 후 팝업창 뜸)
@@ -40,6 +44,7 @@ public class ReturnFirstActivity extends AppCompatActivity {
         returnFirstReportButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ReturnFirstReportFirstActivity.class);
             startActivity(intent);
+            finish();
         });
 
 

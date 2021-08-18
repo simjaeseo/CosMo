@@ -51,6 +51,15 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+        //회원가입 취소버튼 터치시
+        Button signup_cancle_button = (Button) findViewById(R.id.signup_cancle_button);
+        signup_cancle_button.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+
+        });
+
     }
 
 
