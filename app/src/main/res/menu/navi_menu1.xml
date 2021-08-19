@@ -10,7 +10,7 @@
             android:title="후방감지 기능 이용안내"/>
         <item android:id="@+id/suggestion1"
             android:icon="@drawable/ic_suggestion"
-            android:title="건의함"/>
+            android:title="분실신고 및 건의함"/>
         <item android:id="@+id/login1"
             android:icon="@drawable/ic_login"
             android:title="로그인"/>

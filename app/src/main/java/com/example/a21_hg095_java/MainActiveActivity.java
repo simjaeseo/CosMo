@@ -50,15 +50,19 @@ public class MainActiveActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.helmetBoxText1:
-                        Toast.makeText(getApplicationContext(), "헬멧박스 이용안내", Toast.LENGTH_SHORT).show(); // 여기에 이용안내들어가고
+                        Intent intent = new Intent(getApplicationContext(), InformationScrollViewActivity.class);
+                        startActivity(intent);
+                        break;// 여기에 이용안내들어가고
                     case R.id.backDetectionText1:
-                        Toast.makeText(getApplicationContext(), "후방감지 이용안내", Toast.LENGTH_SHORT).show(); // 여기에 후방감지 들어가고
+                        Intent intent1 = new Intent(getApplicationContext(), InformationBackActivity.class);
+                        startActivity(intent1); // 여기에 후방감지 들어가고
                         break;
                     case R.id.suggestion1:
-                        Toast.makeText(getApplicationContext(), "건의함", Toast.LENGTH_SHORT).show(); // 일단 건의함을 정리한거 들어가고
+                        Intent intent2 = new Intent(getApplicationContext(), QuestionsReportActivity.class);
+                        startActivity(intent2); // 일단 건의함을 정리한거 들어가고
                         break;
                     case R.id.login1:
-                        Toast.makeText(getApplicationContext(), "로그인", Toast.LENGTH_SHORT).show(); //로그인 페이지 들어감
+                        Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show(); //로그인 페이지 들어감
                         break;
                 }
                 layout_drawer1.closeDrawers(); // 클릭 후 사이드바 닫힘

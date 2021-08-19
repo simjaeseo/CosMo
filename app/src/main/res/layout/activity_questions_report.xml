@@ -7,29 +7,27 @@
     tools:context=".QuestionsReportActivity">
 
 
-    <!--<TextView
+    <TextView
         android:id="@+id/questions_report_TextView"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="분실, 고장 신고"
+        android:text="분실신고 및 건의함"
         android:textColor="@color/black"
         android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="center"
+        app:layout_constraintBottom_toTopOf="@id/questions_reportContent_EditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/questions_reportContent_EditText"
         android:layout_width="205dp"
         android:layout_height="240dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="140dp"
         android:background="@drawable/report_edittext_shape"
         android:gravity="left|top"
         android:hint="건의 사항을 적어주세요."
@@ -40,39 +38,36 @@
         android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/questions_report_TextView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/questions_report_TextView" />
 
     <Button
         android:id="@+id/questions_returnreport_button"
-        android:layout_width="89dp"
-        android:layout_height="37dp"
+        android:layout_width="95dp"
+        android:layout_height="41dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#BFDCFE"
         android:text="신고"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/questions_cancle_button"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintEnd_toStartOf="@id/questions_cancle_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/questions_reportContent_EditText"
-        app:layout_constraintVertical_bias="0.529" />
+        app:layout_constraintTop_toBottomOf="@id/questions_reportContent_EditText" />
 
     <Button
         android:id="@+id/questions_cancle_button"
         android:layout_width="95dp"
         android:layout_height="41dp"
-
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="#E3BFBF"
         android:text="취소"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.834"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.903" />-->
+        app:layout_constraintStart_toEndOf="@id/questions_returnreport_button"
+        app:layout_constraintTop_toBottomOf="@id/questions_reportContent_EditText"
+ />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
