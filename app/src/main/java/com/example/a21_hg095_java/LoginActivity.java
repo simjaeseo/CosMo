@@ -73,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
         startLogin(new LoginData(nickname, password));
     }
 
-    private static String token;
 
     private void startLogin(LoginData data) {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
@@ -81,9 +80,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 //              LoginResponse result = response.body();
                 if (response.body().getSuccess()) {
-                    sharedpreference = new SharedPreference(getApplicationContext());
-                    sharedpreference.createToken(response.body().getToken());
-                    Toast.makeText(LoginActivity.this, sharedpreference.getPref().getString(token,""), Toast.LENGTH_SHORT).show();
+                    SharedPreference.getInstance().createToken(response.body().getToken());
+                    Toast.makeText(LoginActivity.this, SharedPreference.getInstance().getToken(), Toast.LENGTH_SHORT).show();
 
                     /*// 팝업창 띄운 후 스택 삭제한 다음 메인 액티티비로?
                     finish();

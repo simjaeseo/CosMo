@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -75,12 +77,14 @@ public class MainActiveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (i % 2 == 1) {
-                    detective_Button.setText("후방감지on");
-                    detective_Button.setBackgroundColor(Color.parseColor("#37b328"));
+                    detective_Button.setText("On");
+                    detective_Button.setBackgroundResource(R.drawable.main_backdetection_on_shape);
+                    detective_Button.setTextColor(Color.parseColor("#FFFFFF"));
                     i++;
                 } else if (i % 2 == 0) {
-                    detective_Button.setText("후방감지off");
-                    detective_Button.setBackgroundColor(Color.parseColor("#3F51B5"));
+                    detective_Button.setText("Off");
+                    detective_Button.setBackgroundResource(R.drawable.main_button_shape);
+                    detective_Button.setTextColor(Color.parseColor("#00C6C1"));
                     i++;
                 } // 숫자를 0과 1로 반복되게 변화를 주어서 색변환 동작을 하게 구현
             }

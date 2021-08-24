@@ -4,24 +4,32 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreference {
+    private static SharedPreference instance;
+
+    public static SharedPreference getInstance() {
+        if (instance == null) {
+            instance = new SharedPreference();
+        }
+        return instance;
+
+    }
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
-    private Context context;
 
-    public SharedPreference(Context context){
-        this.context = context;
-        pref = context.getSharedPreferences("CosMoSharedPref", Context.MODE_PRIVATE );
+    public SharedPreference(){
+        pref = MyApplication.getContext().getSharedPreferences("CosMoSharedPref", Context.MODE_PRIVATE );
         editor = pref.edit();
 
     }
 
     public void createToken(String token){
         editor.putString("token", token);
-        editor.commit();
+        editor.apply();
     }
 
-    public SharedPreferences getPref() {
-        return pref;
+    public String getToken() {
+        return pref.getString("token","");
     }
 }
+
