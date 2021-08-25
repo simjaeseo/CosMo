@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         //대여하기 버튼 클릭시 이동하는 임시 코드
         Button rentButton = (Button) findViewById(R.id.rentButton);
         rentButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
+            Intent intent = new Intent(MainActivity.this, QrActivity.class);
             startActivity(intent);
         });
 

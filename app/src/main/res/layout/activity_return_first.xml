@@ -3,67 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="296dp"
-    android:layout_height="222dp"
+    android:layout_height="180dp"
     tools:context=".ReturnFirstActivity">
+
+    <!--더이상 건드리지 말기-->
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:textAlignment="center"
-        android:text="헬멧박스를\n반납하시겠습니까?"
-        android:textSize="18dp"
-        android:textColor="@color/black"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        android:text="헬멧박스를 반납하시겠습니까?"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="@id/returnFirstYesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"  />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/returnFirstYesButton"
         android:layout_width="72dp"
         android:layout_height="43dp"
-        android:text="확인"
-        android:background="@drawable/popup_yes_button_shape"
         android:layout_marginLeft="10dp"
+        android:background="@drawable/popup_yes_button_shape"
+        android:text="확인"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/returnFirstReportButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2"
-        />
+        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
     <Button
         android:id="@+id/returnFirstReportButton"
         android:layout_width="72dp"
         android:layout_height="43dp"
+        android:background="@drawable/popup_cancel_button_shape"
         android:text="신고"
         android:textColor="#FF7070"
-        android:background="@drawable/popup_cancel_button_shape"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/returnFirstCancelButton"
         app:layout_constraintStart_toEndOf="@id/returnFirstYesButton"
-        app:layout_constraintTop_toBottomOf="@id/textView2"
-        />
+        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
     <Button
         android:id="@+id/returnFirstCancelButton"
         android:layout_width="72dp"
         android:layout_height="43dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/popup_cancel_button_shape"
         android:text="취소"
         android:textColor="#00C6C1"
-        android:background="@drawable/popup_cancel_button_shape"
-        android:layout_marginRight="10dp"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/returnFirstReportButton"
-        app:layout_constraintTop_toBottomOf="@id/textView2"
-
-        />
+        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

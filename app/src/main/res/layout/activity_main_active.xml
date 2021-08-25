@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--버튼에 그림자 추가하는거랑 버튼위치만 확인-->
+
         <ImageView
             android:id="@+id/btn_navi1"
             android:layout_width="50dp"
@@ -26,7 +28,7 @@
             android:id="@+id/boxOpenButton"
             android:layout_width="129dp"
             android:layout_height="48dp"
-            android:layout_marginTop="380dp"
+            android:layout_marginTop="420dp"
             android:background="@drawable/main_button_shape"
             android:enabled="true"
             android:gravity="center"
@@ -43,7 +45,7 @@
             android:id="@+id/BoxOpenTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
             android:text="헬멧 박스를 열고 싶을 땐!"
             android:textColor="#FFFFFF"
@@ -57,7 +59,7 @@
             android:id="@+id/backDetectionButton"
             android:layout_width="129dp"
             android:layout_height="48dp"
-            android:layout_marginTop="380dp"
+            android:layout_marginTop="420dp"
             android:background="@drawable/main_button_shape"
 
             android:enabled="true"
@@ -75,7 +77,7 @@
             android:id="@+id/BackDetectionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
             android:text="후방감지를 사용하고 싶다면?"
             android:textColor="#FFFFFF"
@@ -96,6 +98,7 @@
             android:textColor="#00C6C1"
             android:textSize="20dp"
             app:backgroundTint="@null"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

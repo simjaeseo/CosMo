@@ -2,9 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="150dp"
+    android:layout_width="296dp"
+    android:layout_height="222dp"
     tools:context=".LoginCompleteActivity">
+
+
+    <!--크기 확인 아직 못해봄-->
 
 
     <TextView
@@ -12,30 +15,30 @@
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:text="환영합니다\n서비스를 이용하실 수 있습니다."
+        android:layout_marginTop="20dp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/signcomplete_check_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+       />
 
     <Button
         android:id="@+id/signcomplete_check_button"
         android:layout_width="128dp"
         android:layout_height="48dp"
-        android:layout_marginTop="14dp"
-        android:backgroundTint="#BFDCFE"
-        android:includeFontPadding="true"
+        android:background="@drawable/popup_yes_button_shape"
         android:text="확인"
-        android:textColor="#000000"
-        android:textSize="15sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="15dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logincomplete_complete_textview"
-        app:layout_constraintVertical_bias="0.0" />
+         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

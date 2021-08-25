@@ -2,22 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="308dp"
-    android:layout_height="140dp"
+    android:layout_width="330dp"
+    android:layout_height="168dp"
     tools:context=".ReturnHelmetBeingWarningActivity">
+
+    <!--크기 확인 아직 못해봄-->
+
+    <TextView
+        android:id="@+id/ReturnHelmetBeingWarningTitleMessageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/underlineText"
+        android:textSize="23dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ReturnHelmetBeingWarningMessageTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
 
     <TextView
         android:id="@+id/ReturnHelmetBeingWarningMessageTextView"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
+        android:layout_width="285dp"
+        android:layout_height="54dp"
         android:textAlignment="center"
-        android:text="헬멧박스 안에 헬멧이 있는지, \n헬멧박스를 잘 닫았는지,\n확인해주세요!"
+        android:text="헬멧이 헬멧박스 안에 잘 넣었거나\n헬멧 박스를 잘 닫으셨나요?"
+        android:layout_marginBottom="15dp"
         android:textSize="20dp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"  />
+        app:layout_constraintTop_toBottomOf="@+id/ReturnHelmetBeingWarningTitleMessageTextView"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

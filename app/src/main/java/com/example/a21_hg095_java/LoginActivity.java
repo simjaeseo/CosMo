@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private SharedPreference sharedpreference;
+    private SharedPreference sharedPreference;
 
 
     private Button login_login_button;
@@ -36,10 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login_id_edittext = (EditText) findViewById(R.id.login_id_edittext);
-        login_password_editview = (EditText) findViewById(R.id.login_password_editview);
-        login_login_button = (Button) findViewById(R.id.login_login_button);
-        login_signup_button = findViewById(R.id.login_signup_button);
+        login_id_edittext = (EditText) findViewById(R.id.loginIdEditText);
+        login_password_editview = (EditText) findViewById(R.id.loginPasswordEditView);
+        login_login_button = (Button) findViewById(R.id.loginLoginButton);
+        login_signup_button = findViewById(R.id.loginSignupButton);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
 
@@ -81,12 +81,13 @@ public class LoginActivity extends AppCompatActivity {
 //              LoginResponse result = response.body();
                 if (response.body().getSuccess()) {
                     SharedPreference.getInstance().createToken(response.body().getToken());
-                    Toast.makeText(LoginActivity.this, SharedPreference.getInstance().getToken(), Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(LoginActivity.this, SharedPreference.getInstance().getToken(), Toast.LENGTH_SHORT).show();*/
 
-                    /*// 팝업창 띄운 후 스택 삭제한 다음 메인 액티티비로?
-                    finish();
+                    // 팝업창 띄운 후 스택 삭제한 다음 메인 액티티비로?
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);*/
+                    startActivity(intent);
+                    finish();
+
                 }else{
                     Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
