@@ -1,35 +1,33 @@
-from bluetooth import *
+import bluetooth
+from socket import *
+import threading
+import time
 
-server_sock = BluetoothSocket(RFCOMM)
-server_sock.bind(("", PORT_ANY))
-server_sock.listen(1)
+def send(server_socket):
+ while True:
+   sendData =input('')
+   server_socket.send(sendData.encode('utf-8'))
 
-port = server_sock.getsockname()[1]
+def receive(server_socket):
+ while True:
+   recvData = server_socket.recv(1024)
+   print(recvData.decode('utf-8'))
 
-uuid= "00001801-0000-1000-8000-00805f9b34fb"
 
-advertise_service( server_sock, "SampleServer",
-		service_id = uuid,
-		service_classes = [ uuid, SERIAL_PORT_CLASS ],
-		profiles = [ SERIAL_PORT_PROFILE ],
-#		protocols = [OBEX_UUID]
-		)
+server_socket=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 
-print("Waiting for connection on RFCOMM channel %d" % port)
+port = 1
+server_socket.bind(("",port))
+server_socket.listen(1)
 
-client_sock, client_info = server_sock.accept()
-print("Accepted connection from ", client_info)
+client_socket,address = server_socket.accept()
+print("Accepted connection from ",address)
 
-try:
-	while True:
-		data = client_sock.recv(1024)
-		if len(data) == 0: break
-		print("Received: [%s]" % data)
-except IOError:
-	pass
+sender=threading.Thread(target=send,args=(client_socket,))
+receiver=threading.Thread(target=receive,args=(client_socket,))
 
-print("disconnected")
-
-client_socket.close()
-server.socket.close()
-print("all done")
+sender.start()
+receiver.start()
+while True:
+ time.sleep(1)
+ pass
