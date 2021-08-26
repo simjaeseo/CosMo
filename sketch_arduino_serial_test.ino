@@ -6,20 +6,27 @@
 #define LOCK1 10
 #define MAG1 5
 
-int mag_check = 1;
+int mag_check = 0;
 int pw = 0;
 char val =0;
 int int_val = 0;
+int state=600;
 const char endMArk = 'E';
 
 void setup()
 {
- Serial.begin(9600); 
+ Serial.begin(115200); 
+ pinMode(TRIG1,OUTPUT);
+ pinMode(ECHO1,INPUT); 
+ pinMode(TRIG2,OUTPUT);
+ pinMode(ECHO2,INPUT); 
+ pinMode(8,OUTPUT);
+ pinMode(MAG1,INPUT);
 }
 
 void loop()
 {
-  if(Serial.available()){
+  if(Serial.available()>0){
     val = Serial.read();
     if(isDigit(val))
     {
@@ -30,62 +37,58 @@ void loop()
        pw = int_val;
        int_val = 0;
     }
+    state=pw;
+    pw=0;
+  }
+    
+    back_detect_on(state);
+    lock(state);
     
     
-    delay(200);
-  }
-  
-  if(pw == 500){ //start(lock open, back_detect on)
-    lock(500);
-    back_detect(500);
-  }
-  else if(pw == 600){ //finish(lock close, back_detect off)
-    back_detect(600);
-    MAG(600);
-  }
-  else if(pw == 1100){ // lock open
-    lock(500);
-  }
-  else if(pw == 2100){ // back_detect on
-    back_detect(500);
-  }
-  else if(pw == 2200){ // back_detect off
-    back_detect(600);
-  }
-  
+    if(digitalRead(MAG1)== LOW){
+       mag_check = 1; //helmet exist
+      }
+    else if(digitalRead(MAG1)== HIGH){
+      mag_check =2; //helmet empty
+    }
+
+       Serial.println(mag_check,DEC);
+  delay(100);
   
 }
 
 void MAG(int val){
-  mag_check = digitalRead(MAG1);
-  if(val == 600){
-    if(mag_check != 1){
-      Serial.println(100); //helmet exist
+  
+   if(val == 600){ 
+    if(mag_check == 1){
+      Serial.println(100,DEC); //helmet exist
     }
     else{
-      Serial.println(200); //helmet empty
+      Serial.println(200,DEC); //helmet empty
     }
-  }
+   }
+
   else{
-    Serial.println(101);
-  }
+    //exception
+  } 
 }
 
 void lock(int val){
-  if(val==500){
+  if(val == 500 || val==1100){
     digitalWrite(LOCK1, HIGH);
     delayMicroseconds(2);
     digitalWrite(LOCK1, LOW);
     delayMicroseconds(2);
-  }
+   }
   else{
-    Serial.println(501, DEC);
+    //exception
   }
-  
 }
 
-void back_detect(int val){
-  if(val==500){   //detect on
+
+void back_detect_on(int val){
+  //detect on
+  if(val == 500){
      digitalWrite(TRIG1,LOW);
      delayMicroseconds(2);
      digitalWrite(TRIG1,HIGH);
@@ -118,17 +121,15 @@ void back_detect(int val){
      }
      
      delay(100);
-     
-  }
-  
-  else if(val==600){
+  }  
+  else{
     digitalWrite(TRIG1,LOW);
     delayMicroseconds(10);
     digitalWrite(TRIG2,LOW);
     delayMicroseconds(10);
-  }
-  else{
-    Serial.println(601, DEC);
-  }
+   
+ }
+  
+
     
 }
