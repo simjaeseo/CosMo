@@ -11,9 +11,9 @@
         android:name="com.example.a21_hg095_java.data.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_logo"
+        android:icon="@mipmap/cosmo_logo"
         android:label="COSMO"
-        android:roundIcon="@mipmap/ic_logo"
+        android:roundIcon="@mipmap/cosmo_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.21_hg095_java"
         android:usesCleartextTraffic="true">
