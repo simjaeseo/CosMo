@@ -77,14 +77,22 @@ public class MainActiveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (i % 2 == 1) {
-                    detective_Button.setText("On");
-                    detective_Button.setBackgroundResource(R.drawable.main_backdetection_on_shape);
-                    detective_Button.setTextColor(Color.parseColor("#FFFFFF"));
-                    i++;
-                } else if (i % 2 == 0) {
+
+                    // 블루투스 통신을 통해 후방감지 기능 off(구현하기)
+
                     detective_Button.setText("Off");
                     detective_Button.setBackgroundResource(R.drawable.main_button_shape);
                     detective_Button.setTextColor(Color.parseColor("#00C6C1"));
+                    i++;
+
+                } else if (i % 2 == 0) {
+
+                    // 블루투스 통신을 통해 후방감지 기능 on(구현하기)
+
+
+                    detective_Button.setText("On");
+                    detective_Button.setBackgroundResource(R.drawable.main_backdetection_on_shape);
+                    detective_Button.setTextColor(Color.parseColor("#FFFFFF"));
                     i++;
                 } // 숫자를 0과 1로 반복되게 변화를 주어서 색변환 동작을 하게 구현
             }
@@ -100,14 +108,18 @@ public class MainActiveActivity extends AppCompatActivity {
         //헬멧박스open 버튼 선언 후 클릭했을때 이벤트 발생(open할지말지 정하는 팝업창 뜸)
         Button boxOpenButton = (Button) findViewById(R.id.boxOpenButton);
         boxOpenButton.setOnClickListener(v -> {
+
+
             Intent intent = new Intent(getApplicationContext(), BoxOpenPopUpActivity.class);
             startActivity(intent);
+
+
         });
 
 
 
 
-        //헬멧박스open 버튼 선언 후 클릭했을때 이벤트 발생(반납할건지 말건지 정하는 팝업창 뜸)
+        //(반납할건지 말건지 정하는 팝업창 뜸)
         Button returnButton = (Button) findViewById(R.id.returnButton);
         returnButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ReturnFirstActivity.class);

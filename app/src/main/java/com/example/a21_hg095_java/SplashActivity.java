@@ -8,6 +8,8 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a21_hg095_java.data.SharedPreference;
+
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,13 +19,20 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         Handler handler = new Handler();
 
-        //로그인ㅇㅇ
-       handler.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
+                if(SharedPreference.getInstance().getToken()== null) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    // 최종적으로는 메인 액티비티로 이동하게 수정하기
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         },3000);
     }

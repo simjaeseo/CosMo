@@ -77,7 +77,6 @@ public class SignupActivity extends AppCompatActivity {
             //요청해서 응답이 왔을 때
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-//                SignupResponse result = response.body();
 
                 if (response.body().getSuccess()) {
                     Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

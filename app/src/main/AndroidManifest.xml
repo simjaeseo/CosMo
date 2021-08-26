@@ -4,23 +4,27 @@
     package="com.example.a21_hg095_java">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
-
+    //서버와 통신을 하기 위한 인터넷 권한 허용
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.example.a21_hg095_java.data.MyApplication"
+        android:name=".data.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/cosmo_logo"
+        android:icon="@mipmap/ic_logo"
         android:label="COSMO"
-        android:roundIcon="@mipmap/cosmo_logo"
+        android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.21_hg095_java"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".LogoutPopupActivity"
+            android:name=".RentCompleteActivity"
             android:theme="@style/Theme.MyDialog"
             android:exported="true" />
+        <activity
+            android:name=".LogoutPopupActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".ReportCompleteSidebarActivity"
             android:exported="true"

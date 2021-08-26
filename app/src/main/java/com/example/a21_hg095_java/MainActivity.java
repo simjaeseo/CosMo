@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         //대여하기 버튼 클릭시 이동하는 임시 코드
         Button rentButton = (Button) findViewById(R.id.rentButton);
         rentButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, QrActivity.class);
+            //최종적으로는 Qr액티비티로 가도록 수정해야함
+            Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
             startActivity(intent);
         });
 
@@ -95,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-  /*  public void startBarcodeReader(View activity_main) {
-*//*        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+    /*  public void startBarcodeReader(View activity_main) {
+     *//*        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setBeepEnabled(false);//바코드 인식시 소리
         intentIntegrator.initiateScan();*//*
         Intent intent = new Intent(getApplicationContext(), MainActiveActivity.class); // 다음 넘어갈 클래스 지정

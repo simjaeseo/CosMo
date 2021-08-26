@@ -17,15 +17,13 @@ public class BoxOpenPopUpActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_box_open_pop_up);
 
-        //배경부분 클릭했을때도 구현해야할지 고민해야됨.
-        // 확인 버튼 선언 후 클릭시 이벤트 발생하도록 코딩(통신해서 헬멧박스 open 후 다음 팝업창 띄우기)
+        // 블루투스 통신해서 헬멧박스 open 후 완료 팝업창 띄우기
         Button yesButton = (Button) findViewById(R.id.yesButton);
         yesButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), BoxOpenPopUpYesActivity.class);
 
 
-            //헬멧박스 open 부분이니, 서버랑 라즈베리파이랑 통신하는 부분 추가해야함
-            //실제 헬멧박스를 오픈해야하니.
+            //블루투스 통신을 통해 라즈베리파이에게 값을 전달
 
 
             startActivity(intent);

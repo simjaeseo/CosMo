@@ -2,6 +2,8 @@ package com.example.a21_hg095_java.network;
 
 import com.example.a21_hg095_java.data.LoginData;
 import com.example.a21_hg095_java.data.LoginResponse;
+import com.example.a21_hg095_java.data.QrData;
+import com.example.a21_hg095_java.data.QrResponse;
 import com.example.a21_hg095_java.data.SignupData;
 import com.example.a21_hg095_java.data.SignupResponse;
 
@@ -18,7 +20,10 @@ public interface ServiceApi {
     @POST("/auth/register")
     Call<SignupResponse> userJoin(@Body SignupData data);
 
+    @POST("/cosmo/rent")
+    Call<QrResponse> userRent(@Header("Authorization") String token, @Body QrData data);
+
     /*@POST("/rent")
-    Call<RentResponse> userRent(@Header("Authorization" String token))*/
+    Call<RentResponse> userRent(@Header("Authorization") String token)*/
 }
 
