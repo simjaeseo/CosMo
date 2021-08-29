@@ -15,7 +15,7 @@ const char endMArk = 'E';
 
 void setup()
 {
- Serial.begin(115200); 
+ Serial.begin(9600); 
  pinMode(TRIG1,OUTPUT);
  pinMode(ECHO1,INPUT); 
  pinMode(TRIG2,OUTPUT);
@@ -41,35 +41,25 @@ void loop()
     pw=0;
   }
     
-    back_detect_on(state);
-    lock(state);
-    
-    
-    if(digitalRead(MAG1)== LOW){
-       mag_check = 1; //helmet exist
-      }
-    else if(digitalRead(MAG1)== HIGH){
-      mag_check =2; //helmet empty
-    }
-
-       Serial.println(mag_check,DEC);
+ back_detect_on(state);
+ lock(state);
+ MAG(state);
+ 
   delay(100);
   
 }
 
 void MAG(int val){
-  
-   if(val == 600){ 
-    if(mag_check == 1){
-      Serial.println(100,DEC); //helmet exist
-    }
-    else{
-      Serial.println(200,DEC); //helmet empty
-    }
-   }
-
-  else{
-    //exception
+ if(val == 600){
+    mag_check = digitalRead(MAG1);
+    delay(1000);
+    if(mag_check == LOW) {
+      mag_check =1;
+      Serial.println(mag_check, DEC);
+      mag_check = HIGH;
+      delay(100);
+     }
+     delay(200);
   } 
 }
 
