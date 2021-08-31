@@ -1,7 +1,9 @@
 package com.example.a21_hg095_java;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 public class MainActivity extends AppCompatActivity {
+
+    BluetoothAdapter mBluetoothAdapter;
+    //블루투스 활성화 상태
+    final static int BT_REQUEST_ENABLE = 1;
+
 
     //사이드바 변수 선언
     private ImageView btn_navi;
@@ -75,13 +82,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 */
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         //대여하기 버튼 클릭시 이동하는 임시 코드
         Button rentButton = (Button) findViewById(R.id.rentButton);
         rentButton.setOnClickListener(v -> {
-            //최종적으로는 Qr액티비티로 가도록 수정해야함
-            Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
-            startActivity(intent);
+
+            // 블루투스가 꺼져있으면 키도록 하는 부분
+            if (!mBluetoothAdapter.isEnabled()) {
+                BluetoothOn();
+
+            }
+            else {
+                //최종적으로는 Qr액티비티로 가도록 수정해야함
+                Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
+                startActivity(intent);
+            }
+
         });
 
 
@@ -105,8 +122,34 @@ public class MainActivity extends AppCompatActivity {
 
     } //qr 인식화면*/
 
+    // 일단 패스
+    protected void BluetoothOn(){
+        //비활성화 되어 있다면 Intent 를 이용하여 활성화 창을 띄워 onActivityResult 에서 결과를 처리하게끔 함
+        Intent intentBluetoothEnable = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(intentBluetoothEnable, BT_REQUEST_ENABLE);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case BT_REQUEST_ENABLE:
+                if (resultCode == RESULT_OK) { // 블루투스 활성화를 확인을 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "블루투스 활성화", Toast.LENGTH_LONG).show();
 
+                } else if (resultCode == RESULT_CANCELED) { // 블루투스 활성화를 취소를 클릭하였다면
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "블루투스 허용 취소 시 서비스 이용이 불가능합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 3000);
+
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 
 }

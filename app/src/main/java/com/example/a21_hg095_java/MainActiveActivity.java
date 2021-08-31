@@ -1,8 +1,13 @@
 package com.example.a21_hg095_java;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +34,10 @@ public class MainActiveActivity extends AppCompatActivity {
     private View.OnClickListener detective_Listener;
     int i = 1;
 
+    private static int BLUETOOTH_STATE_UNKNOWN = -1;
+    final static int BT_REQUEST_ENABLE = 1;
+
+
     //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
     public static Class MainActiveActivity;
 
@@ -36,6 +45,11 @@ public class MainActiveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_active);
+
+
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(mReceiver, filter);
+
 
         //사이드바 변수 할당
         btn_navi1 = findViewById(R.id.btn_navi1);
@@ -136,4 +150,53 @@ public class MainActiveActivity extends AppCompatActivity {
             super.onBackPressed(); //일반 백버튼 기능 수행
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
+
+    // 중간에 블루투스 끄면 뜨는 창
+    private final BroadcastReceiver mReceiver =  new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BLUETOOTH_STATE_UNKNOWN);
+                if (state == BluetoothAdapter.STATE_OFF) {
+                    //비활성화 되어 있다면 Intent 를 이용하여 활성화 창을 띄워 onActivityResult 에서 결과를 처리하게끔 함
+                    Intent intentBluetoothEnable = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(intentBluetoothEnable, BT_REQUEST_ENABLE);
+                }
+
+            }
+        }
+
+    };
+
+    //중간에 불루투스 끄고나서 뜬 창에서 예 아니오 버튼 둘중 하나 눌렀을떄
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case BT_REQUEST_ENABLE:
+                if (resultCode == RESULT_OK) { // 블루투스 활성화를 확인을 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "블루투스 활성화", Toast.LENGTH_LONG).show();
+                } else if (resultCode == RESULT_CANCELED) { // 블루투스 활성화를 취소를 클릭하였다면
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //비활성화 되어 있다면 Intent 를 이용하여 활성화 창을 띄워 onActivityResult 에서 결과를 처리하게끔 함
+                            Intent intentBluetoothEnable = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                            startActivityForResult(intentBluetoothEnable, BT_REQUEST_ENABLE);
+                        }
+                    }, 2000);
+                    Toast.makeText(MainActiveActivity.this, "블루투스 허용 취소 시 서비스 이용이 불가능합니다.", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }
