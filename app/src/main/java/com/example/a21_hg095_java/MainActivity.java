@@ -1,9 +1,12 @@
 package com.example.a21_hg095_java;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,18 +21,33 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.util.UUID;
+
 public class MainActivity extends AppCompatActivity {
 
     BluetoothAdapter mBluetoothAdapter;
     //블루투스 활성화 상태
     final static int BT_REQUEST_ENABLE = 1;
-
+    BluetoothDevice helmetbox;
 
     //사이드바 변수 선언
     private ImageView btn_navi;
     private DrawerLayout layout_drawer;
     private NavigationView navi_view;
 
+
+    //테스트 코드(삭제 예정)
+    BluetoothSocket mBluetoothSocket;
+    final static int BT_CONNECTING_STATUS = 3;
+    final static UUID BT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    ConnectedBluetoothThread mThreadConnectedBluetooth;
+
+    //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
+    public static Class MainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
+        MainActivity = MainActivity.this.getClass();
 
 /*
         // 재서가 만든 QR 스캐너 코드
@@ -94,9 +113,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else {
-                //최종적으로는 Qr액티비티로 가도록 수정해야함
-                Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
+//                //최종적으로는 Qr액티비티로 가도록 수정해야함
+//                Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
+//                startActivity(intent);
+
+
+//                String Address = "B8:27:EB:82:D7:27";
+//                helmetbox = mBluetoothAdapter.getRemoteDevice(Address);
+
+//        try {
+//
+//            // 우리가 연결에 필요한 값은 장치의 주소로 for 문으로 페어링 된 모든 장치를 검색을 하면서 매개 변수 값과 비교하여 같다면 그 장치의 주소 값을 얻어옵니다
+//            // 그러면 mBluetoothDevice에 연결될 mBluetoothSocket이 초기화되며
+//            mBluetoothSocket = helmetbox.createRfcommSocketToServiceRecord(BT_UUID);
+//            //그 후 connect()를 호출하여 연결을 시작
+//            mBluetoothSocket.connect();
+//            //우리가 블루투스를 연결하고 데이터를 전송할 때는 우리가 원하는 때에 전송하면 됩니다. 하지만 데이터는 언제 수신받을 지 몰라 데이터 수신을 위한 쓰레드를 따로 만들어서 처리해야 합니다.
+//            // 그에 따라 mBluetoothSocket 를 매개변수로 mThreadConnectedBluetooth 쓰레드를 생성해줍니다.
+//            mThreadConnectedBluetooth = new ConnectedBluetoothThread(mBluetoothSocket);
+//            mThreadConnectedBluetooth.start();
+////            mBluetoothHandler.obtainMessage(BT_CONNECTING_STATUS, 1, -1).sendToTarget();
+//        } catch (IOException e) {
+//            Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+//        }
+                Intent intent = new Intent(MainActivity.this, QrActivity.class);
+//                intent.putExtra("user", mThreadConnectedBluetooth); startActivity(intent);
                 startActivity(intent);
+
+
             }
 
         });
@@ -152,6 +196,76 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+    //ConnectedBluetoothThread 쓰레드
+    //ConnectedBluetoothThread 스레드의 시작이며 이 스레드에서 사용할 전역 객체들을 선언
+    //위에서 사용한 소켓이 이미 메인 액티비티 자체의 소켓이니 그대로 사용해도 되지만 쓰레드 내부 자체에서만 사용할 소켓 객체를 추가하였습니다.
+    public class ConnectedBluetoothThread extends Thread implements Serializable {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+
+        //쓰레드 초기화 과정입니다. getInputStream()와 getOutputStream()을 사용하여 소켓을 통한 전송을 처리하는 InputStream 및 OutputStream을 가져옴
+        //간단하게 말하자면 데이터 전송 및 수신하는 길을 만들어주는 작업
+        public ConnectedBluetoothThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "소켓 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+
+        }
+        //수신받은 데이터는 언제 들어올지 모르니 항상 확인해야 합니다. 그에 따라 while 반복문 처리로 데이터가 존재한다면 데이터를 읽어오는 작업을 해줌
+        public void run() {
+            byte[] buffer = new byte[1024];
+            int bytes;
+
+            while (true) {
+                try {
+                    bytes = mmInStream.available();
+                    if (bytes != 0) {
+                        SystemClock.sleep(100);
+                        bytes = mmInStream.available();
+                        bytes = mmInStream.read(buffer, 0, bytes);
+//                        mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                        Toast.makeText(getApplicationContext(), "발생했습니다.", Toast.LENGTH_LONG).show();
+                    }
+                } catch (IOException e) {
+                    Toast.makeText(getApplicationContext(), "발생했습니다.", Toast.LENGTH_LONG).show();
+                    break;
+                }
+            }
+        }
+        //데이터 전송을 위한 ConnectedBluetoothThread 스레드의 메서드로 88, 89번째 줄에서 사용
+        public void write(String str) {
+            byte[] bytes = str.getBytes();
+            try {
+                mmOutStream.write(bytes);
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "데이터 전송 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
+        //블루투스 소켓을 닫는 메서드입니다. 애플리케이션을 닫으면 어차피 자동으로 닫아지니 여기서 따로 사용할 일은 없겠음
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "소켓 해제 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
 
 

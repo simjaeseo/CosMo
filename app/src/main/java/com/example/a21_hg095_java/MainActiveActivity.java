@@ -46,6 +46,10 @@ public class MainActiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_active);
 
+        Intent intent2 = getIntent();
+        MainActivity.ConnectedBluetoothThread mThreadConnectedBluetooth = (MainActivity.ConnectedBluetoothThread) intent2.getSerializableExtra("user");
+
+
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
@@ -123,7 +127,7 @@ public class MainActiveActivity extends AppCompatActivity {
         Button boxOpenButton = (Button) findViewById(R.id.boxOpenButton);
         boxOpenButton.setOnClickListener(v -> {
 
-
+            mThreadConnectedBluetooth.write("123");
             Intent intent = new Intent(getApplicationContext(), BoxOpenPopUpActivity.class);
             startActivity(intent);
 

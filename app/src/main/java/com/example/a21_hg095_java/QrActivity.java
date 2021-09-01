@@ -67,18 +67,18 @@ public class QrActivity extends AppCompatActivity {
 
     // qr코드 서버와 통신
     private void startRent(QrData data) {
+        //헬멧박스 MAC 주소 받아와서 그 맥주소 shared preference에 저장 후 대여팝업에서 호출해 사용하기
         service.userRent("Bearer "+SharedPreference.getInstance().getToken(), data).enqueue(new Callback<QrResponse>() {
             @Override
             public void onResponse(Call<QrResponse> call, Response<QrResponse> response) {
                 if (response.body().getSuccess()) {
-                    // 블루투스 통신을 통해 값을 넘겨주기
+
+                    SharedPreference.getInstance().createMacAddress(response.body().getMacAddress());
 
 //
 //
-//                    // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
-                    Intent intent = new Intent(getApplicationContext(), RentCompleteActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), RentPopupActivity.class);
                     startActivity(intent);
-                    finish();
 
 
 //                    // 라즈베리파이

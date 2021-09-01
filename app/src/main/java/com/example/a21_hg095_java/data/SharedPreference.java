@@ -31,5 +31,15 @@ public class SharedPreference {
     public String getToken() {
         return pref.getString("token","");
     }
+
+    public void createMacAddress(String macAddress){
+        editor.putString("macAddress", macAddress);
+        editor.apply();
+    }
+
+    public String getMacAddress() {
+        return pref.getString("macAddress","");
+    }
+
 }
 

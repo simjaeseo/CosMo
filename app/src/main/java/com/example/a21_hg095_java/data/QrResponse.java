@@ -9,12 +9,20 @@ public class QrResponse {
     @SerializedName("message")
     private String message;
 
+    @SerializedName("macAddress")
+    private String macAddress;
+
+
     public boolean getSuccess() {
         return success;
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public String getMacAddress() {
+        return macAddress;
     }
 
 }
