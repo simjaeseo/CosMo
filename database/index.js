@@ -2,9 +2,9 @@ const db = require("mysql2/promise");
 const { DB_HOST, DB_USER, DB_PASSWORD } = require("../config/index.js");
 
 const pool = db.createPool({
-    host: DB_HOST,
-    user: DB_USER,
-    password: DB_PASSWORD,
+    host: "jaeseo2.c9gplmo8pgi2.ap-northeast-2.rds.amazonaws.com",
+    user: "admin",
+    password: "xmdlsk12",
     database: "CosMo",
     waitForConnections: true,
     connectionLimit: 5,

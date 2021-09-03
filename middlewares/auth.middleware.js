@@ -8,6 +8,7 @@ module.exports = {
     //사용자가 로그인을 했는지 안했는지 검증하는 미들웨어
     authMiddleware: async (req, res, next) => {
         const token = req.headers.authorization;
+	
         let conn;
 
         // 클라이언트의 request에 토큰이 존재하지 않을 경우
@@ -17,15 +18,17 @@ module.exports = {
             const accessToken = token.split(" ");
             // 토큰을 " " 기준으로 나눴을때 첫번째 값이 Bearer가 아닐때
             if (accessToken[0] !== "Bearer") {
+
                 res.status(401).json({ success: false });
             } else {
                 try {
                     conn = await getConn();
 
                     const { userId } = jwt.verify(accessToken[1], JWT_SECRET);
-
+		    
                     //locals라는 공간에 user를 저장하기 위한 행동들(즉, 사용자정보를 이 미들웨어를 거치는 라우터에서는 쉽게 쓸수있음!)
                     const [[user]] = await conn.query("SELECT * FROM users WHERE id = ?", [userId]);
+		   
                     res.locals.user = user;
                     console.log(res.locals.user);
                 } catch (e) {

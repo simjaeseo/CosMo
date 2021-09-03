@@ -26,8 +26,7 @@ router.post("/rent", async (req, res) => {
             // helmetbox 테이블의 boxRentStatus, users 테이블의 rentStatus 모두 true로 바꾸기
             let status = "true";
             await conn.execute("UPDATE users set rentStatus = ? WHERE id = ?", [status, res.locals.user.id]);
-            await conn.execute("UPDATE helmetbox set boxRentStatus = ? WHERE id = ?", [status, DBqrcode.id]);
-console.log(DBqrcode.macAddress);
+            await conn.execute("UPDATE helmetbox set boxRentStatus = ? WHERE id = ?", [status, DBqrcode.id
             result = { success: true, message: "대여 성공",macAddress : DBqrcode.macAddress };
         } else result = { success: false, message: `다시 인식해주세요` };
     } catch (e) {

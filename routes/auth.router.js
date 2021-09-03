@@ -9,7 +9,7 @@ const router = express.Router();
 //테스트 완료(API 작동 정상)
 router.post("/register", async (req, res) => {
     const { nickname, password } = req.body;
-
+    console.log("회원가입을 시도합니다")
     if (nickname == null || password == null) res.status(400).json({ success: false, message: "아이디 또는 비밀번호를 입력해주세요" });
     else {
         let conn;
@@ -30,7 +30,10 @@ router.post("/register", async (req, res) => {
             if (conn) conn.release();
 
             if (!result.success) res.status(409).json(result);
-            else res.status(201).json(result);
+            else {
+	    res.json(result);
+	    
+	   }
         }
     }
 });
@@ -39,7 +42,7 @@ router.post("/register", async (req, res) => {
 //테스트 완료(API 작동 정상)
 router.post("/login", async (req, res) => {
     const { nickname, password } = req.body;
-
+    console.log("로그인을 시도합니다.")
     try {
         conn = await getConn();
         const [[user]] = await conn.query(`SELECT *  FROM users WHERE nickname = ?`, [nickname]);
