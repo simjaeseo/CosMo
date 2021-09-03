@@ -16,6 +16,7 @@ const pool = db.createPool({
 //     await conn.execute(`CREATE TABLE users(
 //         id int(11) NOT NULL AUTO_INCREMENT,
 //         nickname varchar(11) NOT NULL,
+//         name varchar(11) NOT NULL,
 //         password varchar(100) NOT NULL,
 //         rentStatus varchar(100) NOT NULL,
 //         created_at timestamp NOT NULL DEFAULT current_timestamp(),
