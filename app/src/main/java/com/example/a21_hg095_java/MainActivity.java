@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.a21_hg095_java.data.SharedPreference;
 import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 
@@ -49,10 +50,16 @@ public class MainActivity extends AppCompatActivity {
     //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
     public static Class MainActivity;
 
+    //서비스 테스트
+    private BTService _btService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
         //사이드바 변수 할당
         btn_navi = findViewById(R.id.btn_navi);
@@ -117,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
 //                Intent intent = new Intent(MainActivity.this, MainActiveActivity.class);
 //                startActivity(intent);
 
+//                //서비스테스트
+//                _btService = new BTService(getApplicationContext());
+
+
+
+
+//                _btService.connect(SharedPreference.getInstance().getMacAddress());
 
 //                String Address = "B8:27:EB:82:D7:27";
 //                helmetbox = mBluetoothAdapter.getRemoteDevice(Address);
@@ -234,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
 
             while (true) {
                 try {
-                    bytes = mmInStream.available();
+//                    bytes = mmInStream.available();
+                      bytes = mmInStream.read(buffer);
                     if (bytes != 0) {
                         SystemClock.sleep(100);
                         bytes = mmInStream.available();

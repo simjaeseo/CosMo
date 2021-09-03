@@ -19,10 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.21_hg095_java"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".BTService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".RentPopupActivity"
-            android:theme="@style/Theme.MyDialog"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".RentCompleteActivity"
             android:exported="true"
