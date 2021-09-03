@@ -7,51 +7,70 @@ import RPi.GPIO as GPIO
 import serial
 from time import sleep
 
-port1 = "/dev/ttyUSB1"
-serialToArduino = serial.Serial(port1,9600)
+port1 = "/dev/ttyUSB0"
+serialToArduino = serial.Serial(port1,115200)
 
-def send(client_socket):
- while True:
-   sendData =input('')
-   server_socket.send(sendData.encode('utf-8'))
 
-def receive(client_socket):
- while True:
-   recvData = client_socket.recv(1024)
-   print(recvData.decode('utf-8'))
-   
-   
-   message = "500"
-   endMark = 'E'
-   
-   if recvData==None:
-      message = "500"
-      print("if1")
-   else:
-      message = "600"
-      print(message)
-   
-   serialToArduino.writelines(message)
-   print(message)
-   serialToArduino.write(endMark.encode())
-   print("sended message:",   message, endMark)
-   time.sleep(.5)
-   
+class Blue_tele(threading.Thread): 
+ def __init__(self, client_socket, serialToArduino):
+     threading.Thread.__init__(self)
+     super(Blue_tele, self).__init__()
+     self.socket = client_socket
+     self.data = None
+     self.serialToArduino = serialToArduino
+ def run(self):
+     
+     while True:
+       self.data = self.socket.recv(1024)
+       print(str(self.data))
+       self.socket.send(self.data)
+       self.serialToArduino.writelines(str(self.data)+'E')
+       time.sleep(0.5)
+ def send(self, ardu_data):
+    self.socket.send(ardu_data)
+
+class Ardu_tele(threading.Thread):
+
+ def __init__(self, serialToArduino):
+     threading.Thread.__init__(self)
+     super(Ardu_tele, self).__init__()
+     self.Ardu_data=None
+     self.serialToArduino = serialToArduino
+
+ def run(self):
+    while True:
+      self.Ardu_data = serialToArduino.readline()
+      time.sleep(0.5)
+def lock():
+   pass
+
 
 server_socket=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
-
 port = 1
 server_socket.bind(("",port))
 server_socket.listen(1)
 
 client_socket,address = server_socket.accept()
-print("Accepted connection from ",address)
 
+print("Accepted connection from ",address)
 print("Ready to communication")
 
-sender=threading.Thread(target=send,args=(client_socket,))
-receiver=threading.Thread(target=receive,args=(client_socket,))
+receive = Blue_tele(client_socket, serialToArduino)
+receive.start()
 
-sender.start()
-receiver.start()
+ardu_receive = Ardu_tele(serialToArduino)
+ardu_receive.start()
 
+while True:
+  if ardu_receive.Ardu_data == None:
+   pass
+  else:
+   print(ardu_receive.Ardu_data)
+   receive.send(ardu_receive.Ardu_data)
+   time.sleep(0.1)
+   ardu_receive.Ardu_data = None
+
+  if receive.data == '1000':
+   lock()
+   recieve.data = None
+  time.sleep(0.1)
