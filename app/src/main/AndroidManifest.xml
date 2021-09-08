@@ -11,7 +11,7 @@
 
     <application
         android:name=".data.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_logo"
         android:label="COSMO"

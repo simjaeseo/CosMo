@@ -19,14 +19,14 @@ public class ReturnHelmetBeingWarningActivity extends AppCompatActivity {
         Handler handler = new Handler();
 
 
-        TextView ReturnHelmetBeingWarningMessageTextView = (TextView) findViewById(R.id.ReturnHelmetBeingWarningMessageTextView);
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 finish();
             }
         }, 2000); //2초 딜레이 후 자동꺼짐
     }
+    
 
 }

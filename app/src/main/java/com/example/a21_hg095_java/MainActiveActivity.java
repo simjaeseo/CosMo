@@ -2,12 +2,15 @@ package com.example.a21_hg095_java;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -41,13 +44,20 @@ public class MainActiveActivity extends AppCompatActivity {
     //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
     public static Class MainActiveActivity;
 
+
+
+    //수신테스트
+    private BTService btService;
+    private boolean mBound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_active);
+//        Toast.makeText(MainActiveActivity.this, btService.receive(), Toast.LENGTH_SHORT).show();
 
-        Intent intent2 = getIntent();
-        MainActivity.ConnectedBluetoothThread mThreadConnectedBluetooth = (MainActivity.ConnectedBluetoothThread) intent2.getSerializableExtra("user");
+//        Intent intent2 = getIntent();
+//        MainActivity.ConnectedBluetoothThread mThreadConnectedBluetooth = (MainActivity.ConnectedBluetoothThread) intent2.getSerializableExtra("user");
 
 
 
@@ -95,6 +105,7 @@ public class MainActiveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (i % 2 == 1) {
+                    Toast.makeText(MainActiveActivity.this, btService.receive(), Toast.LENGTH_SHORT).show();
 
                     // 블루투스 통신을 통해 후방감지 기능 off(구현하기)
 
@@ -127,7 +138,7 @@ public class MainActiveActivity extends AppCompatActivity {
         Button boxOpenButton = (Button) findViewById(R.id.boxOpenButton);
         boxOpenButton.setOnClickListener(v -> {
 
-            mThreadConnectedBluetooth.write("123");
+//            mThreadConnectedBluetooth.write("123");
             Intent intent = new Intent(getApplicationContext(), BoxOpenPopUpActivity.class);
             startActivity(intent);
 
@@ -203,4 +214,41 @@ public class MainActiveActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+
+
+
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent intent = new Intent(this, BTService.class);
+        bindService(intent, mConnection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mBound){
+            unbindService(mConnection);
+            mBound= false;
+        }
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            BTService.MyBinder binder = (BTService.MyBinder) service;
+            btService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            //예기치 않은 종료
+        }
+    };
 }

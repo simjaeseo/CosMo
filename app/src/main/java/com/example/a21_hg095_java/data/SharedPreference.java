@@ -41,5 +41,24 @@ public class SharedPreference {
         return pref.getString("macAddress","");
     }
 
+
+    public void createNumber(String number){
+        editor.putString("number", number);
+        editor.apply();
+    }
+
+    public String getNumber() {
+        return pref.getString("number","");
+    }
+
+    public void createBTState(String state){
+        editor.putString("state", state);
+        editor.apply();
+    }
+
+    public String getBTState() {
+        return pref.getString("state","");
+    }
+
 }
 

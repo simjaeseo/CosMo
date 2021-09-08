@@ -32,7 +32,7 @@
         android:id="@+id/RentPopupYesButton"
         android:layout_width="99dp"
         android:layout_height="43dp"
-        android:text="확인"
+        android:text="대여하기"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="20dp"
         android:textColor="@color/white"

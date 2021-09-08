@@ -33,7 +33,8 @@ public class ReturnFirstActivity extends AppCompatActivity {
             // --> 추가해야할 액티비티 : ReturnHelmetBeingWarningActivity, ReturnLoadCheckActivity, ReturnCompleteActivity
 
 
-
+            // 테스트 용
+//            Intent intent = new Intent(getApplicationContext(), ReturnHelmetBeingWarningActivity.class);
             Intent intent = new Intent(getApplicationContext(), ReturnLoadCheckActivity.class); //테스트 위해 load_check로 넘어가게 함
             startActivity(intent);
             finish();

@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         Handler handler = new Handler();
 
         //블루투스 미지원 기기 이용불가
-        if (mBluetoothAdapter == null) {
+        if ((mBluetoothAdapter == null)) {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (SharedPreference.getInstance().getToken() == null) {
+                    if (SharedPreference.getInstance().getToken().equals("")) {
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                         finish();

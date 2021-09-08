@@ -1,5 +1,7 @@
 package com.example.a21_hg095_java;
 
+import static com.example.a21_hg095_java.BTService.BT_MESSAGE_READ;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,14 +53,14 @@ public class MainActivity extends AppCompatActivity {
     //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
     public static Class MainActivity;
 
-    //서비스 테스트
-    private BTService _btService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Toast.makeText(MainActivity.this, SharedPreference.getInstance().getNumber(), Toast.LENGTH_SHORT).show();
 
 
 
@@ -281,6 +284,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+//
+//    // 데이터 수신 관련련
+//    private final Handler mHandler = new Handler(){
+//        public void handleMessage(android.os.Message msg){
+//            if(msg.what == BT_MESSAGE_READ){
+//                String readMessage = null;
+//                try {
+//                    readMessage = new String((byte[]) msg.obj, "UTF-8");
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//                mTvReceiveData.setText(readMessage);
+//            }
+//        }
+//    };
+
+
 }
 
 

@@ -7,13 +7,17 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.widget.Toast;
 
+import com.example.a21_hg095_java.data.SharedPreference;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 public class BTService extends Service {
@@ -22,6 +26,14 @@ public class BTService extends Service {
     final static UUID BT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     ConnectedThread mthread;
     BluetoothSocket mmSocket;
+
+    //수신 관련
+    private Handler mBluetoothHandler;
+    final static int BT_MESSAGE_READ = 2;
+    private StringBuilder recDataString = new StringBuilder();
+    private String BTData = null;
+
+    String a;
 
 
     private IBinder mBinder = new MyBinder();
@@ -42,11 +54,45 @@ public class BTService extends Service {
         mthread.write(str);
     }
 
+//    public StringBuilder receive(){
+//        return recDataString;
+//    }
+
+//    public String receive(){
+//        return BTData;
+//    }
+
+        public String receive(){
+        return a;
+    }
+
+
+
     public BTService(){
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        mBluetoothHandler = new Handler(){
+            public void handleMessage(android.os.Message msg){
+                if(msg.what == BT_MESSAGE_READ){
+                    String readMessage = null;
+                    try {
+                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+//                        recDataString.append(readMessage);
+//                        BTData = recDataString.toString();
+                        a = readMessage.substring(0,3);
+                        SharedPreference.getInstance().createBTState(a);
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+//                recDataString.delete(0, recDataString.length());
+            }
+        };
+
         mAdapter = BluetoothAdapter.getDefaultAdapter();
 
         String mac = intent.getStringExtra("macAddress");
@@ -98,7 +144,8 @@ public class BTService extends Service {
             }
             catch (IOException e)
             {
-                Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "123블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+
             }
             manageConnectedSocket(mmSocket);
 
@@ -168,6 +215,7 @@ public class BTService extends Service {
     {
         mthread = new ConnectedThread($socket);
         mthread.start();
+
     }
 
     private class ConnectedThread extends Thread {
@@ -204,11 +252,11 @@ public class BTService extends Service {
                         SystemClock.sleep(100);
                         bytes = mmInStream.available();
                         bytes = mmInStream.read(buffer, 0, bytes);
-//                        mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-                        Toast.makeText(getApplicationContext(), "발생했습니다.", Toast.LENGTH_LONG).show();
+                        mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+//                        Toast.makeText(getApplicationContext(), "발생했습니다.", Toast.LENGTH_LONG).show();
                     }
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "발생했습니다.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "발생했습니다.", Toast.LENGTH_LONG).show();
                     break;
                 }
             }
@@ -234,6 +282,20 @@ public class BTService extends Service {
             }
         }
     }
+//
+//    mBluetoothHandler = new Handler(){
+//        public void handleMessage(android.os.Message msg){
+//            if(msg.what == BT_MESSAGE_READ){
+//                String readMessage = null;
+//                try {
+//                    readMessage = new String((byte[]) msg.obj, "UTF-8");
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//                mTvReceiveData.setText(readMessage);
+//            }
+//        }
+//    };
 
 
 

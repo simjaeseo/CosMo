@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.example.a21_hg095_java.data.QrData;
@@ -83,12 +84,16 @@ public class QrActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "6757567블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+
         }
 
-        //동기화 처리
-        Intent intent = new Intent(getApplicationContext(), RentPopupActivity.class);
-        startActivity(intent);
+
+            //동기화 처리
+            Intent intent = new Intent(getApplicationContext(), RentPopupActivity.class);
+            startActivity(intent);
+
+
 
 
 
