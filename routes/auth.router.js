@@ -8,7 +8,7 @@ const router = express.Router();
 //회원가입 라우터
 //테스트 완료(API 작동 정상)
 router.post("/register", async (req, res) => {
-    const { nickname, password } = req.body;
+    const { nickname,name, password } = req.body;
     console.log("회원가입을 시도합니다");
     if (nickname == null || password == null) res.status(400).json({ success: false, message: "아이디 또는 비밀번호를 입력해주세요" });
     else {
@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
             if (user) result = { success: false, message: "닉네임이 이미 존재합니다." };
             else {
                 const hashPw = await bcrypt.hash(password, await bcrypt.genSalt(12));
-                await conn.execute("INSERT INTO users (nickname, password, rentStatus) VALUES (?,?,?)", [nickname, hashPw, "false"]);
+                await conn.execute("INSERT INTO users (nickname,name, password, rentStatus) VALUES (?,?,?,?)", [nickname,name, hashPw, "false"]);
                 result = { success: true, message: "가입 완료" };
             }
         } catch (e) {
