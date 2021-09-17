@@ -8,7 +8,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", require("./routes/auth.router"));
-app.use("/cosmo",authMiddleware, require("./routes/rent.router"));
+app.use("/cosmo", authMiddleware, require("./routes/rent.router"));
+app.use("/cosmo", require("./routes/report.router"));
+app.use("/cosmo", require("./routes/return.router"));
+
 //여기는 이제 헬멧박스 open, 후방감지기능, 반납 기능 포함하는 라우터 1개(or 3개로 나눠서) 만들어야함(꼭 rentAuthMiddleware 거치게 만들기. )
 //app.use("/boxOpen", authMiddleware, rentAuthMiddleware, require("./routes/boxOpen.router"));
 
@@ -19,7 +22,7 @@ app.use("/cosmo",authMiddleware, require("./routes/rent.router"));
 
 app.get("/", (req, res) => {
     res.send("hi");
-    console.log("hi")
+    console.log("hi");
 });
 
 app.listen(9200, (err) => {
