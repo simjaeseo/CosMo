@@ -25,7 +25,7 @@ router.post("/rent", async (req, res) => {
                 result = { success: false, message: "이미 대여중인 헬멧박스입니다." };
             } else {
                 //신고처리 안된 헬멧박스
-                if (DBqrcode.reportStatus == false) {
+                if (DBqrcode.reportStatus == "false") {
                     // helmetbox 테이블의 boxRentStatus, users 테이블의 rentStatus 모두 true로 바꾸기
                     let status = "true";
                     // await conn.execute("UPDATE users set rentStatus = ? WHERE id = ?", [status, res.locals.user.id]);

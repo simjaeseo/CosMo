@@ -20,8 +20,9 @@ router.post("/report", async (req, res) => {
             helmetStatus,
             "false",
         ]);
-
-        await conn.execute("INSERT INTO helmetbox (boxRentStatus, reportStatus) VALUES (?,?)", ["false", "true"]);
+        // await conn.execute("UPDATE helmetbox set boxRentStatus = ? WHERE id = ?", [status, DBqrcode.id]); 업데이트하기!!! + 123반납에러는 뭐지?
+        await conn.execute("UPDATE helmetbox set (boxRentStatus, reportStatus) VALUES (?,?) WHERE id = ?", ["false", "true, QRnumber"]);
+        // await conn.execute("INSERT INTO helmetbox (boxRentStatus, reportStatus) VALUES (?,?)", ["false", "true"]);
 
         result = { success: true, message: "신고 처리 되었습니다." };
     } catch (e) {
