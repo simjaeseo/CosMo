@@ -8,7 +8,7 @@ import serial
 from time import sleep
 
 port1 = "/dev/ttyUSB0"
-serialToArduino = serial.Serial(port1,115200)
+serialToArduino = serial.Serial(port1,9600)
 
 
 class Blue_tele(threading.Thread): 
@@ -67,7 +67,7 @@ while True:
   else:
    print(ardu_receive.Ardu_data)
    receive.send(ardu_receive.Ardu_data)
-   time.sleep(0.1)
+   time.sleep(0.5)
    ardu_receive.Ardu_data = None
 
   if receive.data == '1000':
