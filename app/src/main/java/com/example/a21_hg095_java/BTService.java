@@ -31,9 +31,10 @@ public class BTService extends Service {
     private Handler mBluetoothHandler;
     final static int BT_MESSAGE_READ = 2;
     private StringBuilder recDataString = new StringBuilder();
-    private String BTData = null;
+    private String BTData = "000";
+    private String magnetBTData = "";
 
-    String a;
+
 
 
     private IBinder mBinder = new MyBinder();
@@ -54,16 +55,16 @@ public class BTService extends Service {
         mthread.write(str);
     }
 
-//    public StringBuilder receive(){
-//        return recDataString;
-//    }
+    public void BTend(){
+        mthread.cancel();
+    }
 
-//    public String receive(){
-//        return BTData;
-//    }
+    public String receive(){
+        return BTData;
+    }
 
-        public String receive(){
-        return a;
+    public String magnetReceive(){
+        return magnetBTData;
     }
 
 
@@ -81,9 +82,30 @@ public class BTService extends Service {
                     try {
                         readMessage = new String((byte[]) msg.obj, "UTF-8");
 //                        recDataString.append(readMessage);
-//                        BTData = recDataString.toString();
-                        a = readMessage.substring(0,3);
-                        SharedPreference.getInstance().createBTState(a);
+                        // 자석감지 센서 값이 들어오면 다른 변수에 저장시키기
+                        if(readMessage.substring(0,1) == "1") {
+                            magnetBTData = readMessage.substring(0,1);
+//                            SharedPreference.getInstance().createasd(magnetBTData);
+                        }
+                        else {
+                            BTData = readMessage.substring(0,3);
+                            SharedPreference.getInstance().createasd(BTData);
+
+                        }
+
+//                        if(readMessage.substring(0,3).equals("400") ||readMessage.substring(0,3).equals("500") ||readMessage.substring(0,3).equals("600")||  readMessage.substring(0,3).equals("700")) {
+//
+//                            BTData = readMessage.substring(0,3);
+//
+//                        }
+//                        else {
+//                            magnetBTData = readMessage.substring(0,1);
+//                            SharedPreference.getInstance().createasd(magnetBTData);
+//                        }
+//
+//                        a = readMessage.substring(0,3);
+//                        SharedPreference.getInstance().createBTState(a);
+
 
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -136,7 +158,7 @@ public class BTService extends Service {
             // Get a BluetoothSocket to connect with the given BluetoothDevice
             try
             {
-                Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_LONG).show();
                 tmp = device.createRfcommSocketToServiceRecord(BT_UUID);
                 mmSocket = tmp;
                 mmSocket.connect();
@@ -144,7 +166,8 @@ public class BTService extends Service {
             }
             catch (IOException e)
             {
-                Toast.makeText(getApplicationContext(), "123블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+                SharedPreference.getInstance().createBTflag("1");
+                Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다. 다시 시도해주세요", Toast.LENGTH_LONG).show();
 
             }
             manageConnectedSocket(mmSocket);

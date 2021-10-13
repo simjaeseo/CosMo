@@ -42,23 +42,78 @@ public class SharedPreference {
     }
 
 
-    public void createNumber(String number){
-        editor.putString("number", number);
+    public void createQrNumber(String QRnumber){
+        editor.putString("QRnumber", QRnumber);
         editor.apply();
     }
 
-    public String getNumber() {
-        return pref.getString("number","");
+    public String getQrNumber() {
+        return pref.getString("QRnumber","");
     }
 
-    public void createBTState(String state){
-        editor.putString("state", state);
+    public void createBTflag(String BTflag){
+        editor.putString("BTflag", BTflag);
         editor.apply();
     }
 
-    public String getBTState() {
-        return pref.getString("state","");
+    public String getBTflag() {
+        return pref.getString("BTflag","");
     }
+
+    public void createUserName(String userName){
+        editor.putString("userName", userName);
+        editor.apply();
+    }
+
+    public String getUserName() {
+        return pref.getString("userName","");
+    }
+
+    public void createLatitude(String latitude){
+        editor.putString("latitude", latitude);
+        editor.apply();
+    }
+
+    public String getLatitude() {
+        return pref.getString("latitude","");
+    }
+
+    public void createLongitude(String longitude){
+        editor.putString("longitude", longitude);
+        editor.apply();
+    }
+
+    public String getLongitude() {
+        return pref.getString("longitude","");
+    }
+
+    public void createBackDetectionStatus(String backdetectionStatus){
+        editor.putString("backdetectionStatus", backdetectionStatus);
+        editor.apply();
+    }
+
+    public String getBackDetectionStatus() {
+        return pref.getString("backdetectionStatus","");
+    }
+
+    public void createasd(String asd){
+        editor.putString("asd", asd);
+        editor.apply();
+    }
+
+    public String getasd() {
+        return pref.getString("asd","");
+    }
+
+
+//    public void createBTState(String state){
+//        editor.putString("state", state);
+//        editor.apply();
+//    }
+//
+//    public String getBTState() {
+//        return pref.getString("state","");
+//    }
 
 }
 

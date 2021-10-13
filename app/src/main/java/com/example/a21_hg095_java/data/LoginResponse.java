@@ -12,6 +12,9 @@ public class LoginResponse {
     @SerializedName("token")
     private String token;
 
+    @SerializedName("userName")
+    private String userName;
+
     public boolean getSuccess() {
         return success;
     }
@@ -23,4 +26,9 @@ public class LoginResponse {
     public String getToken() {
         return token;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
 }

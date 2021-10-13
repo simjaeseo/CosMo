@@ -80,13 +80,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 //              LoginResponse result = response.body();
                 if (response.body().getSuccess()) {
+
                     SharedPreference.getInstance().createToken(response.body().getToken());
+                    SharedPreference.getInstance().createUserName(response.body().getUserName());
+
                     /*Toast.makeText(LoginActivity.this, SharedPreference.getInstance().getToken(), Toast.LENGTH_SHORT).show();*/
 
                     // 팝업창 띄운 후 스택 삭제한 다음 메인 액티티비로?
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    finish();
 
                 }else{
                     Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

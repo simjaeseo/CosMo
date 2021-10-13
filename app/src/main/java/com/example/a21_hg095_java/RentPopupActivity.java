@@ -15,11 +15,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.a21_hg095_java.data.QrData;
+import com.example.a21_hg095_java.data.QrResponse;
 import com.example.a21_hg095_java.data.SharedPreference;
+import com.example.a21_hg095_java.data.macData;
+import com.example.a21_hg095_java.network.RetrofitClient;
+import com.example.a21_hg095_java.network.ServiceApi;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RentPopupActivity extends AppCompatActivity {
     //서비스 테스트
@@ -28,123 +37,91 @@ public class RentPopupActivity extends AppCompatActivity {
     private BTService btService;
     private boolean mBound;
 
+
     private String readMessage;
+
+    private ServiceApi service;
+
+    Button RentPopupYesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        지우지 말기
+//        Intent intent2 = new Intent(getApplicationContext(),BTService.class);
+//        intent2.putExtra("macAddress",SharedPreference.getInstance().getMacAddress() );
+//        startService(intent2);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_popup);
 //        Toast.makeText(RentPopupActivity.this, SharedPreference.getInstance().getMacAddress(), Toast.LENGTH_SHORT).show();
+        service = RetrofitClient.getClient().create(ServiceApi.class);
 
 //        Intent intent2 = new Intent(this,BTService.class);
 //        intent2.putExtra("macAddress",SharedPreference.getInstance().getMacAddress() );
 
-        Button RentPopupYesButton = (Button) findViewById(R.id.RentPopupYesButton);
+        RentPopupYesButton = (Button) findViewById(R.id.RentPopupYesButton);
         //확인 버튼
         RentPopupYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String good = "500";
-                int i=0;
+                RentPopupYesButton.setEnabled(false);
 
-//                startService(intent2);
-
-                // 블루투스 통신을 통해 값을 넘겨주기
-                btService.send("500");
-
-
-
-//                while (true) {
-//                    if (btService.receive() != null) {
-//                        break;
-//                    }
-//                    SystemClock.sleep(500);
-//                }
-//                Toast.makeText(RentPopupActivity.this, readMessage, Toast.LENGTH_SHORT).show();
-
-
-
-//                Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
-//                startActivity(intent);
-//                finish();
+                String goodStateCode = "700";
+                String goodStateCode2 = "500";
 
                 Handler handler = new Handler();
+                Handler handler2 = new Handler();
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                try {
+                    // 블루투스 통신을 통해 값을 넘겨주기
+                    btService.send("700");
 
-                        if(good.equals(SharedPreference.getInstance().getBTState())){
-                            Toast.makeText(RentPopupActivity.this, btService.receive()+"1", Toast.LENGTH_SHORT).show();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-//                            // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
-//                            Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
-//                            startActivity(intent);
-//                            finish();
-                        }else{
-                            Toast.makeText(RentPopupActivity.this, btService.receive()+"2", Toast.LENGTH_SHORT).show();
-//                            Handler handler = new Handler();
-//
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
-//                                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                    startActivity(intent2);
-//                                }
-//                            }, 1500); //2초 딜레이 후 자동꺼짐
+                            if(goodStateCode.equals(btService.receive())){
+
+                                btService.send("500");
+
+                                handler2.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        if(goodStateCode2.equals(btService.receive())){
+                                            startRent(new QrData(SharedPreference.getInstance().getQrNumber()));
+
+//                                            // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
+//                                            Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
+//                                            RentPopupYesButton.setEnabled(true);
+//                                            startActivity(intent);
+//                                            finish();
+                                        }else{
+                                            Toast.makeText(RentPopupActivity.this, "1대여 과정 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                                            RentPopupYesButton.setEnabled(true);
+
+                                            // 뭐로해야하지
+                                        }
+
+                                    }
+                                }, 3000); //1초 딜레이 후 자동꺼짐
+
+
+                            }else{
+                                Toast.makeText(RentPopupActivity.this, "대여 과정 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                                RentPopupYesButton.setEnabled(true);
+
+                            }
                         }
-//                            Toast.makeText(RentPopupActivity.this, btService.receive(), Toast.LENGTH_SHORT).show();
-                    }
-                }, 6000); //2초 딜레이 후 자동꺼짐
-
-//
-//                while(true){
-//                    if(btService.receive().equals("500")){
-//                         Toast.makeText(RentPopupActivity.this, btService.receive()+"1", Toast.LENGTH_SHORT).show();
-//
-////                         대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
-////                        Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
-////                        startActivity(intent);
-////                        finish();
-//                        break;
-//                    }
-////                    else{ //3초
-////                         Toast.makeText(RentPopupActivity.this, btService.receive() + "2", Toast.LENGTH_SHORT).show();
-////
-//////                        Toast.makeText(RentPopupActivity.this, "블루투스 통신 에러로 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
-//////                        Handler handler = new Handler();
-//////
-//////                        handler.postDelayed(new Runnable() {
-//////                            @Override
-//////                            public void run() {
-//////                                Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
-//////                                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//////                                startActivity(intent2);
-//////                            }
-//////                        }, 2000); //2초 딜레이 후 자동꺼짐
-////                        break;
-////                    }
-//
-//                    try {
-//                        TimeUnit.MILLISECONDS.sleep(2000);
-//                        i++;
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                    }, 3000); //2초 딜레이 후 자동꺼짐
+                }
+                catch (Exception e){
+                    e.printStackTrace(); //오류 출력(방법은 여러가지)
+                }
 
 
 
 
-
-
-
-
-//                // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
-//                Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
-//                startActivity(intent);
-//                finish();
             }
         });
 
@@ -156,7 +133,8 @@ public class RentPopupActivity extends AppCompatActivity {
                 //shared preference mac주소 널값으로 만들까?
 //                SharedPreference.getInstance().createMacAddress("");
 
-
+                //여기서 블루투스 연결이 되어있다면, 통신 해제하는 부분 구현하는게 좋을거같음
+//                btService.BTend();
 
                 //전전 메인 액티비티로 이동
                 Intent intent = new Intent(RentPopupActivity.this, MainActivity.class);
@@ -167,6 +145,194 @@ public class RentPopupActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
+
+
+
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+////        지우지 말기
+////        Intent intent2 = new Intent(getApplicationContext(),BTService.class);
+////        intent2.putExtra("macAddress",SharedPreference.getInstance().getMacAddress() );
+////        startService(intent2);
+//
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_rent_popup);
+////        Toast.makeText(RentPopupActivity.this, SharedPreference.getInstance().getMacAddress(), Toast.LENGTH_SHORT).show();
+//
+////        Intent intent2 = new Intent(this,BTService.class);
+////        intent2.putExtra("macAddress",SharedPreference.getInstance().getMacAddress() );
+//
+//        Button RentPopupYesButton = (Button) findViewById(R.id.RentPopupYesButton);
+//        //확인 버튼
+//        RentPopupYesButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                RentPopupYesButton.setEnabled(false);
+//
+//                String goodStateCode = "700";
+//                String goodStateCode2 = "500";
+//
+//                Handler handler = new Handler();
+//                Handler handler2 = new Handler();
+//
+//
+////                try {
+////                    // 블루투스 통신을 통해 값을 넘겨주기
+////                    btService.send("700");
+////                    handler.postDelayed(new Runnable() {
+////                        @Override
+////                        public void run() {
+////
+////                            if(goodStateCode.equals(btService.receive())){
+////                                btService.send("500");
+////
+////                                // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
+////                                Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
+////                                startActivity(intent);
+////                                finish();
+////                            }else{
+////                                Toast.makeText(RentPopupActivity.this, "대여 과정 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+////
+////                            }
+////                        }
+////                    }, 3000); //2초 딜레이 후 자동꺼짐
+////                }
+////                catch (Exception e){
+////                    Toast.makeText(RentPopupActivity.this, "123대여 과정 중 에러가 발생했습니다. ", Toast.LENGTH_SHORT).show();
+////                }
+//
+//                try {
+//                    // 블루투스 통신을 통해 값을 넘겨주기
+//                    btService.send("700");
+//
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            if(goodStateCode.equals(btService.receive())){
+//
+//                                btService.send("500");
+//
+//                                handler2.postDelayed(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//
+//                                        if(goodStateCode2.equals(btService.receive())){
+//                                            // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
+//                                            Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
+//                                            RentPopupYesButton.setEnabled(true);
+//                                            startActivity(intent);
+//                                            finish();
+//                                        }else{
+//                                            Toast.makeText(RentPopupActivity.this, "1대여 과정 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+//                                            RentPopupYesButton.setEnabled(true);
+//
+//                                            // 뭐로해야하지
+//                                        }
+//
+//                                    }
+//                                }, 1500); //1초 딜레이 후 자동꺼짐
+//
+//
+//                            }else{
+//                                Toast.makeText(RentPopupActivity.this, "대여 과정 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+//                                RentPopupYesButton.setEnabled(true);
+//
+//                            }
+//                        }
+//                    }, 1500); //2초 딜레이 후 자동꺼짐
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace(); //오류 출력(방법은 여러가지)
+//                }
+//
+//
+//
+//
+//            }
+//        });
+//
+//        Button RentPopupCancelButton = (Button) findViewById(R.id.RentPopupCancelButton);
+//        //확인 버튼
+//        RentPopupCancelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //shared preference mac주소 널값으로 만들까?
+////                SharedPreference.getInstance().createMacAddress("");
+//
+//                //여기서 블루투스 연결이 되어있다면, 통신 해제하는 부분 구현하는게 좋을거같음
+////                btService.BTend();
+//
+//                //전전 메인 액티비티로 이동
+//                Intent intent = new Intent(RentPopupActivity.this, MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//
+//
+//            }
+//        });
+//    }
+
+
+
+
+
+    // qr코드 서버와 통신
+    private void startRent(QrData data) {
+        //헬멧박스 MAC 주소 받아와서 그 맥주소 shared preference에 저장 후 대여팝업에서 호출해 사용하기
+        service.userRent("Bearer "+SharedPreference.getInstance().getToken(), data).enqueue(new Callback<QrResponse>() {
+            @Override
+
+            public void onResponse(Call<QrResponse> call, Response<QrResponse> response) {
+                if (response.body().getSuccess()) {
+
+                    // 대여완료되었습니다 환영합니다! 팝업 2초 뜨게하고
+                    Intent intent = new Intent(RentPopupActivity.this, RentCompleteActivity.class);
+                    RentPopupYesButton.setEnabled(true);
+                    startActivity(intent);
+                    finish();
+
+
+//            //동기화 처리
+//            Intent intent = new Intent(getApplicationContext(), RentPopupActivity.class);
+//            startActivity(intent);
+
+
+
+
+
+
+
+
+                    // 서버로 데이터보냄( 만약 db에 저장되어있는 qr코드가 아니면 응답메세지로 응답하기(이건 토스트메세지로 뿌려주기))
+                    //db에 저장되어있는게 맞다면? -> 사용자의 대여상태와 헬멧박스의 대여상태를 바꿔줘야하는데... 이건 다음 팝업창에서 확인 누를때 해야겠지...?
+                    // 그럼 여기서는 qr코드가 db에 있는지 없는지만 확인해야겠네?
+                    // 그럼 qr코드를 의미있는 값으로 한다면(ex 블루투스 mac주소 ?? ) 이 값을 이용할 수 도 있겠다!
+
+                }else{
+                    Toast.makeText(RentPopupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onFailure(Call<QrResponse> call, Throwable t) {
+                Toast.makeText(RentPopupActivity.this, "대여 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
 
 
     @Override

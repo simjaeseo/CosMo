@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,20 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.a21_hg095_java.data.SharedPreference;
+import com.example.a21_hg095_java.network.RetrofitClient;
+import com.example.a21_hg095_java.network.ServiceApi;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.threeten.bp.LocalTime;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActiveActivity extends AppCompatActivity {
 
@@ -44,6 +58,8 @@ public class MainActiveActivity extends AppCompatActivity {
     //취소버튼 누를때 전전 액티비티로 넘어가기위해서 필요한 선언
     public static Class MainActiveActivity;
 
+    private ServiceApi service;
+    String ex_longitude, ex_latitude;
 
 
     //수신테스트
@@ -52,8 +68,17 @@ public class MainActiveActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        AndroidThreeTen.init(this);
+        service = RetrofitClient.getClientWeatherAPI().create(ServiceApi.class);
+        SharedPreference.getInstance().createBackDetectionStatus("true");
+
+        // 강수량에 따라 배경 그림 바꾸기
+//        attemptWeather();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_active);
+
 //        Toast.makeText(MainActiveActivity.this, btService.receive(), Toast.LENGTH_SHORT).show();
 
 //        Intent intent2 = getIntent();
@@ -64,11 +89,18 @@ public class MainActiveActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, filter);
 
+        ex_latitude = SharedPreference.getInstance().getLatitude();
+        ex_longitude = SharedPreference.getInstance().getLongitude();
 
         //사이드바 변수 할당
         btn_navi1 = findViewById(R.id.btn_navi1);
         layout_drawer1 = findViewById(R.id.layout_drawer1);
         navi_view1 = findViewById(R.id.naviview1);
+
+        View nav_header_view = navi_view1.getHeaderView(0);
+
+        TextView nav_header_id_text = (TextView) nav_header_view.findViewById(R.id.userName);
+        nav_header_id_text.setText(SharedPreference.getInstance().getUserName() + "님!");
 
         //사이드바 이미지 터치시 열리는 기능
         btn_navi1.setOnClickListener(v -> {
@@ -91,9 +123,9 @@ public class MainActiveActivity extends AppCompatActivity {
                         Intent intent2 = new Intent(getApplicationContext(), QuestionsReportActivity.class);
                         startActivity(intent2); // 일단 건의함을 정리한거 들어가고
                         break;
-                    case R.id.login1:
-                        Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show(); //로그인 페이지 들어감
-                        break;
+//                    case R.id.login1:
+//                        Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show(); //로그인 페이지 들어감
+//                        break;
                 }
                 layout_drawer1.closeDrawers(); // 클릭 후 사이드바 닫힘
                 return false;
@@ -104,25 +136,86 @@ public class MainActiveActivity extends AppCompatActivity {
         detective_Listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                detective_Button.setEnabled(false);
+                // 후방감지 기능 off
                 if (i % 2 == 1) {
-                    Toast.makeText(MainActiveActivity.this, btService.receive(), Toast.LENGTH_SHORT).show();
 
-                    // 블루투스 통신을 통해 후방감지 기능 off(구현하기)
+                    //블루투스 통신을 통해 라즈베리파이에게 값을 전달
+                    String goodStateCode = "400";
+                    Handler handler = new Handler();
 
-                    detective_Button.setText("Off");
-                    detective_Button.setBackgroundResource(R.drawable.main_button_shape);
-                    detective_Button.setTextColor(Color.parseColor("#00C6C1"));
-                    i++;
+                    try {
+                        // 블루투스 통신을 통해 값을 넘겨주기
+                        btService.send("400");
+                    }
+                    catch (Exception e){
+                        detective_Button.setEnabled(true);
+                        Toast.makeText(MainActiveActivity.this, "123후방감지 기능 작동 중 에러가 발생했습니다. ", Toast.LENGTH_SHORT).show();
+                    }
 
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(goodStateCode.equals(btService.receive())){
+
+                                SharedPreference.getInstance().createBackDetectionStatus("false");
+                                detective_Button.setText("Off");
+                                detective_Button.setBackgroundResource(R.drawable.main_button_shape);
+                                detective_Button.setTextColor(Color.parseColor("#00C6C1"));
+                                detective_Button.setEnabled(true);
+                                i++;
+                            }else{
+                                Toast.makeText(MainActiveActivity.this, "후방감지 기능 작동 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                                detective_Button.setEnabled(true);
+
+                            }
+                        }
+                    }, 1500); //2초 딜레이 후 자동꺼짐
+
+
+
+                    //후방감지 기능 on
                 } else if (i % 2 == 0) {
 
-                    // 블루투스 통신을 통해 후방감지 기능 on(구현하기)
+
+                    //블루투스 통신을 통해 라즈베리파이에게 값을 전달
+                    String goodStateCode = "500";
+                    Handler handler = new Handler();
+
+                    try {
+                        detective_Button.setEnabled(false);
+
+                        // 블루투스 통신을 통해 값을 넘겨주기
+                        btService.send("500");
+                    }
+                    catch (Exception e){
+                        detective_Button.setEnabled(true);
+
+                        Toast.makeText(MainActiveActivity.this, "123후방감지 기능 작동 중 에러가 발생했습니다. ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(goodStateCode.equals(btService.receive())){
+
+                                SharedPreference.getInstance().createBackDetectionStatus("true");
+                                detective_Button.setText("On");
+                                detective_Button.setBackgroundResource(R.drawable.main_backdetection_on_shape);
+                                detective_Button.setTextColor(Color.parseColor("#FFFFFF"));
+                                detective_Button.setEnabled(true);
+
+                                i++;
+                            }else{
+                                Toast.makeText(MainActiveActivity.this, "후방감지 기능 작동 중 에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    }, 1500); //2초 딜레이 후 자동꺼짐
 
 
-                    detective_Button.setText("On");
-                    detective_Button.setBackgroundResource(R.drawable.main_backdetection_on_shape);
-                    detective_Button.setTextColor(Color.parseColor("#FFFFFF"));
-                    i++;
                 } // 숫자를 0과 1로 반복되게 변화를 주어서 색변환 동작을 하게 구현
             }
 
@@ -162,7 +255,11 @@ public class MainActiveActivity extends AppCompatActivity {
         if (layout_drawer1.isDrawerOpen(GravityCompat.START)) {
             layout_drawer1.closeDrawers();
         } else {
-            super.onBackPressed(); //일반 백버튼 기능 수행
+//            super.onBackPressed(); //일반 백버튼 기능 수행\
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(homeIntent);
         }
     }
 
@@ -251,4 +348,130 @@ public class MainActiveActivity extends AppCompatActivity {
             //예기치 않은 종료
         }
     };
+
+
+
+
+//
+//    private void attemptWeather() {
+//        LocalTime now = LocalTime.now();
+//        int hour = now.getHour();
+//
+//        String pageNo = "1";
+//        if(hour <= 9){
+//            pageNo = "1";
+//        }else if (hour<=13) {
+//            pageNo = "2";
+//        }else if (hour <= 17){
+//            pageNo = "3";
+//
+//        }else if (hour <= 22){
+//            pageNo = "4";
+//        }
+//
+//        String numOfRows = "50";
+//        String dataType = "JSON";
+//        String base_date = "20211003";
+//        String base_time = "0500";
+//        String nx = SharedPreference.getInstance().getLongitude();
+//        String ny = SharedPreference.getInstance().getLatitude();
+//
+//        startWeather(pageNo, numOfRows, dataType, base_date, base_time, nx, ny);
+//    }
+//
+//
+//    private void startWeather(
+//            String pageNo,
+//            String numOfRows,
+//            String dataType,
+//            String base_date,
+//            String base_time,
+//            String nx,
+//            String ny) {
+//        service.userWeather(pageNo, numOfRows, dataType, base_date, base_time, nx, ny).enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//
+//                LocalTime now = LocalTime.now();
+//                int hour = now.getHour();
+//                String hour2 =  "";
+//
+//                if( hour < 10){
+//                    hour2 = "0"+ hour +"00";
+//                }else {
+//                    hour2 = hour + "00";
+//                }
+//
+//                //파싱
+//                JsonArray item = response.body().getAsJsonObject("response").getAsJsonObject("body").getAsJsonObject("items").getAsJsonArray("item");
+//                String c = "";
+//                for (int i = 0; i < item.size(); i++) {
+//                    JsonElement ele = item.get(i);
+//                    if(ele.getAsJsonObject().get("category").getAsString().equals("PCP") && ele.getAsJsonObject().get("fcstTime").getAsString().equals(hour2) ){
+//                        c = ele.getAsJsonObject().get("fcstValue").getAsString();   // 강수관한 정보가 c에 저장됨
+//                    }
+//
+//
+////                    nowWeather.setText(c);
+//
+//                    //여기서 배경화면 바꾸기 !!!!!!!!!!!!!!!
+//                    //조건 따져야함 강수없음? 몇미리? 그외?(시간 벗어났을때)
+//
+//                }
+//
+////                test123.setText( obj.toString() );
+//
+////                Toast.makeText(MainActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+//
+////                if (response.body().getitem().isEmpty()) {
+////
+////                    Toast.makeText(MainActivity.this, response.body().getitem().toString(), Toast.LENGTH_SHORT).show();
+////
+////                    /*Toast.makeText(LoginActivity.this, SharedPreference.getInstance().getToken(), Toast.LENGTH_SHORT).show();*/
+////
+////
+////                }else{
+////                    Toast.makeText(MainActivity.this, response.body().getitem().toString(), Toast.LENGTH_SHORT).show();
+////                }
+//            }
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Toast.makeText(MainActiveActivity.this, "날씨 에러 발생", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//
+//
+//
+//
+//        if( ex_latitude != SharedPreference.getInstance().getLatitude() ||  ex_longitude != SharedPreference.getInstance().getLongitude() ) {
+//
+//
+//            SharedPreference.getInstance().createLatitude(SharedPreference.getInstance().getLatitude());
+//            Toast.makeText(getApplicationContext(), "로그인", Toast.LENGTH_SHORT).show(); //로그아웃 페이지 들어감
+//
+//            test123.setText(SharedPreference.getInstance().getLatitude());
+//
+//            SharedPreference.getInstance().createLongitude(SharedPreference.getInstance().getLongitude());
+//            test1234.setText(SharedPreference.getInstance().getLongitude());
+//
+//
+//
+//            attemptWeather();
+//            ex_latitude = SharedPreference.getInstance().getLatitude();
+//            ex_longitude = SharedPreference.getInstance().getLongitude();
+//
+//        }
+//
+//
+//
+////        SharedPreference.getInstance().createLatitude( Double.toString(longitude));
+////        SharedPreference.getInstance().createLongitude(Double.toString(latitude));
+//    }
+
 }

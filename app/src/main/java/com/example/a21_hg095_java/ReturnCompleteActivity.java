@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.example.a21_hg095_java.data.SharedPreference;
+
 public class ReturnCompleteActivity extends AppCompatActivity {
 
     @Override
@@ -23,6 +25,8 @@ public class ReturnCompleteActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                SharedPreference.getInstance().createQrNumber("");
+                SharedPreference.getInstance().createMacAddress("");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

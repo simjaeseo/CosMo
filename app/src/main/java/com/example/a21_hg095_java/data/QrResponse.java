@@ -13,6 +13,8 @@ public class QrResponse {
     private String macAddress;
 
 
+
+
     public boolean getSuccess() {
         return success;
     }

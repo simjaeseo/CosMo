@@ -17,6 +17,8 @@ import com.example.a21_hg095_java.data.SignupResponse;
 import com.example.a21_hg095_java.network.RetrofitClient;
 import com.example.a21_hg095_java.network.ServiceApi;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,7 +106,6 @@ public class SignupActivity extends AppCompatActivity {
             //요청해서 응답이 왔을 때
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-
                 if (response.body().getSuccess()) {
                     Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     finish();
@@ -136,7 +137,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<OverlapCheckResponse> call, Response<OverlapCheckResponse> response) {
 
-                if (response.body().getSuccess()) {
+
+                if(response.body().getSuccess()) {
                     Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(SignupActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
