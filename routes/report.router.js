@@ -3,7 +3,7 @@ const { getConn } = require("../database/index.js");
 const router = express.Router();
 
 router.post("/report", async (req, res) => {
-    console.log("신고하기 기능을 시도합니다");
+    console.log(res.locals.user.nickname + "님이 신고하기를 통해 헬멧박스를 반납하였습니다.");
     const { QRnumber, content, helmetStatus } = req.body;
 
     let conn, result;
@@ -21,7 +21,9 @@ router.post("/report", async (req, res) => {
             "false",
         ]);
         // await conn.execute("UPDATE helmetbox set boxRentStatus = ? WHERE id = ?", [status, DBqrcode.id]); 업데이트하기!!! + 123반납에러는 뭐지?
-        await conn.execute("UPDATE helmetbox set (boxRentStatus, reportStatus) VALUES (?,?) WHERE id = ?", ["false", "true, QRnumber"]);
+        await conn.execute("UPDATE helmetbox set boxRentStatus = ?  WHERE QRnumber = ?", ["false", QRnumber]);
+        await conn.execute("UPDATE helmetbox set reportStatus = ? WHERE QRnumber = ?", ["true", QRnumber]);
+
         // await conn.execute("INSERT INTO helmetbox (boxRentStatus, reportStatus) VALUES (?,?)", ["false", "true"]);
 
         result = { success: true, message: "신고 처리 되었습니다." };

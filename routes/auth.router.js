@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
             if (await bcrypt.compare(password, user.password)) {
                 //토큰 발급
                 const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "365d" });
-                result = { success: true, message: "로그인 성공", token };
+                result = { success: true, message: "로그인 성공", token, userName: user.name };
             } else result = { success: false, message: "비밀번호를 다시 입력해주세요" };
         }
     } catch (e) {
@@ -86,7 +86,7 @@ router.post("/overlapCheck", async (req, res) => {
     } finally {
         if (conn) conn.release();
         if (result.success) res.status(201).json(result);
-        else res.status(409).json(result);
+        else res.json(result);
     }
 });
 
