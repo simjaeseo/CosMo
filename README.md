@@ -2,6 +2,5 @@
 CosMo
 
 -   hardware
--   front
 -   front_java
--   backend
+-   backend_test
